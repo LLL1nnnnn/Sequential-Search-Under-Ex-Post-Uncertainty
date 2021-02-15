@@ -1,0 +1,41 @@
+{% extends "global/Page.html" %}
+
+{% block title %}Purchase{% endblock %}
+{% block content %}
+<table id='history' class='table'></table>
+<button type='button' id='searchbutton'>Search</button>
+<p></p>
+<input id='purchaseinput' type='number'>
+<button type='button' id='purchasebutton'>Purchase</button>
+<script>
+    let history = document.getElementById('history')
+    let searchbutton = document.getElementById('searchbutton');
+    let purchaseinput = document.getElementById('purchaseinput');
+    let purchasebutton = document.getElementById('purchasebutton');
+
+    var i = 1;
+    function liveRecv(data) {
+        if (data.type === 'game_finished') {
+            document.getElementById("form").submit();
+        }
+        history.innerHTML += '<tr><td>' + 'Product ' + i + '\'s probability is: ' + data.probability + '</td></tr>';
+        i += 1
+    }
+
+    searchbutton.onclick = function () {
+        console.log('send')
+        liveSend({
+            'type': 'search'
+        })
+    }
+
+    purchasebutton.onclick = function () {
+        liveSend({
+            'type': 'purchase',
+            'i': parseInt(purchaseinput.value)
+        })
+    }
+
+</script>
+
+{% endblock %}
