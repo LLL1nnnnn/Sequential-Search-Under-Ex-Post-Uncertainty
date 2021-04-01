@@ -132,9 +132,9 @@ class Instruction(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            'value_high': c(player.session.config['value_high']),
-            'value_low': c(player.session.config['value_low']),
-            'search_cost': c(player.session.config['search_cost']),
+            'value_high': player.session.config['value_high'],
+            'value_low': player.session.config['value_low'],
+            'search_cost': player.session.config['search_cost'],
             'certainty': player.session.config['certainty']
         }
 
@@ -184,9 +184,9 @@ class Decision(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            'value_high': c(player.session.config['value_high']),
-            'value_low': c(player.session.config['value_low']),
-            'search_cost': c(player.session.config['search_cost']),
+            'value_high': player.session.config['value_high'],
+            'value_low': player.session.config['value_low'],
+            'search_cost': player.session.config['search_cost'],
             'certainty': player.session.config['certainty']
         }
 
@@ -196,9 +196,9 @@ class Results(Page):
     def vars_for_template(player: Player):
         Decision.probabilities[player.id_in_group] = []
         var = dict(player=player)
-        var['value_high'] = c(player.session.config['value_high'])
-        var['value_low'] = c(player.session.config['value_low'])
-        var['search_cost'] = c(player.session.config['search_cost']) 
+        var['value_high'] = player.session.config['value_high']
+        var['value_low'] = player.session.config['value_low']
+        var['search_cost'] = player.session.config['search_cost']
         var['certainty']= player.session.config['certainty']
         return var
     

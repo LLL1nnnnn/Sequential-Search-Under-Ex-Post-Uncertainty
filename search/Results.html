@@ -16,17 +16,17 @@
 {% if certainty == True %}
     <p>
         Your payoff from round {{player.round_number}} is <math> - {{player.number_of_search}} &times; 
-            {{ search_cost }} + {{ value_high }} &times; {{player.probability}} 
-            + {{ value_low }} &times; (1 - {{player.probability}}) = </math> <b>{{player.payoff}}</b>. 
+            {{ search_cost }} points + {{ value_high }} points &times; {{player.probability}} 
+            + {{ value_low }} points &times; (1 - {{player.probability}}) = </math> <b>{{player.payoff}}</b>. 
     </p>
 {% else %}
     {% if player.probability >= player.threshold %}
         <p>
-            The random outcome of the item you purchase is {{ value_high }}. 
+            The random outcome of the item you purchase is {{ value_high }} points. 
         </p>
         <p>
             Your payoff from round {{player.round_number}} is <math> - {{player.number_of_search}} &times; 
-                {{ search_cost }} + {{ value_high }} = </math> <b>{{player.payoff}}</b>. 
+                {{ search_cost }} points + {{ value_high }} points = </math> <b>{{player.payoff}}</b>. 
         </p>
     {% else %}
         <p>
@@ -34,7 +34,7 @@
         </p>
         <p>
             Your payoff from round {{player.round_number}} is <math>  {{player.number_of_search}} &times; 
-                {{ search_cost }} + {{ value_low }} = </math> <b>{{player.payoff}}</b>. 
+                {{ search_cost }} points + {{ value_low }} points = </math> <b>{{player.payoff}}</b>. 
         </p>
     {% endif %}
 {% endif %}

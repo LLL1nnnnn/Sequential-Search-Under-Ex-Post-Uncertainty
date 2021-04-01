@@ -10,20 +10,20 @@
 
 <p>
     In each round, you are going to search for an item to purchase. You start with no item on your searched list. 
-    You can choose to search for the next item at a constant cost of <b>{{ search_cost }}</b>  per search 
+    You can choose to search for the next item at a constant cost of <b>{{ search_cost }}</b> points per search 
     by clicking on <b>Search</b> button. 
-    For each item, there are two possible outcomes: <b>{{ value_high }}</b> and 
-    <b>{{ value_low }}</b>. 
+    For each item, there are two possible outcomes: <b>{{ value_high }}</b> points and 
+    <b>{{ value_low }}</b> points. 
     The items differ in probability of getting {{ value_high }}. 
 
     After each search, you will know the <b>probability</b> <math><b>p</b></math> of the item you just searched, 
-    where <math><b>p</b></math> is the probability of getting {{ value_high }}. 
+    where <math><b>p</b></math> is the probability of getting {{ value_high }} points. 
 </p>
 
 <p>
     With the current searched list, you can choose to purchase any item by entering the <b>Search No.</b> of the 
     item that you want to purchse in the box and clicking on the <b>Purchase</b> button; or you may keep searching 
-    for the next new item at cost of <b>{{ search_cost }}</b>. 
+    for the next new item at cost of <b>{{ search_cost }}</b> points. 
     The round ends when you make a purchase. 
 </p>
 
@@ -32,40 +32,40 @@
 {% if certainty == True %}
     <p>
         The value you receive from the item you choose to purchase is 
-        <math>{{ value_high }} &times; p + {{ value_low }} &times; (1 - p)</math>. 
+        <math>{{ value_high }} points &times; p + {{ value_low }} points &times; (1 - p)</math>. 
     </p>
 
     <p>
         Suppose you have searched <b><math>n</math></b> times in this round, your payoff in this round is 
-        <math><b> - n &times; {{ search_cost }} + {{ value_high }} &times; p 
-            + {{ value_low }} &times; (1 - p)</b></math>. 
+        <math><b> - n &times; {{ search_cost }} points + {{ value_high }} points &times; p 
+            + {{ value_low }} points &times; (1 - p)</b></math>. 
     </p>
 
     {% if value_high == 500 %}
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has 
-        <b>Probability of Being {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), 
-        then your payoff is calculated as <math> - 4 &times; {{ search_cost }} + {{ value_high }} &times; 0.75 
-            + {{ value_low }} &times; (1 - 0.75) = 380</math>. 
+        <b>Probability of Being {{ value_high }}</b> points as 0.75 (<math>p = 0.75</math>), 
+        then your payoff is calculated as <math> - 4 &times; {{ search_cost }} points + {{ value_high }} points &times; 0.75 
+            + {{ value_low }} points &times; (1 - 0.75) = 380</math>. 
     </p>
     {% elif value_high == 200 %}
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has 
-        <b>Probability of Being {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), 
-        then your payoff is calculated as <math> - 4 &times; {{ search_cost }} + {{ value_high }} &times; 0.75 
-            + {{ value_low }} &times; (1 - 0.75) = 155</math>. 
+        <b>Probability of Being {{ value_high }}</b> points as 0.75 (<math>p = 0.75</math>), 
+        then your payoff is calculated as <math> - 4 &times; {{ search_cost }} points + {{ value_high }} points &times; 0.75 
+            + {{ value_low }} points &times; (1 - 0.75) = 155</math>. 
     </p>
     {% endif %}
 {% else %}
     <p>
         The value you receive from the item you choose to purchase is either 
-        <math>{{ value_high }}</math> or <math>{{ value_low }}</math>. 
+        <math>{{ value_high }}</math> points or <math>{{ value_low }}</math> points . 
     </p>
 
     <p>
         Suppose that you have searched <math>n</math> times in this round, then your payoff in this round is 
-        <math><b>- n &times; {{ search_cost }} + {{ value_high }}</b></math>
-        or <math><b>- n &times; {{ search_cost }} + {{ value_low }}</b></math>. 
+        <math><b>- n &times; {{ search_cost }} points + {{ value_high }} points </b></math> 
+        or <math><b>- n &times; {{ search_cost }} points + {{ value_low }} points </b></math>. 
     </p>
     {% if value_high == 500 %}
     <p>

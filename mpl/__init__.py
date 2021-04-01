@@ -111,9 +111,9 @@ class Decision(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            'lottery_a': c(player.session.config['lottery_a']),
-            'lottery_b_lo': c(player.session.config['lottery_b_lo']),
-            'lottery_b_hi': c(player.session.config['lottery_b_hi']),
+            'lottery_a': player.session.config['lottery_a'],
+            'lottery_b_lo': player.session.config['lottery_b_lo'],
+            'lottery_b_hi': player.session.config['lottery_b_hi'],
             'choices': player.participant.vars['mpl_choices']
         }
 
@@ -151,9 +151,9 @@ class Results(Page):
         choice_to_pay = player.participant.vars['mpl_choices'][round_to_pay - 1]
 
         return {
-            'lottery_a': c(player.session.config['lottery_a']),
-            'lottery_b_lo': c(player.session.config['lottery_b_lo']),
-            'lottery_b_hi': c(player.session.config['lottery_b_hi']),
+            'lottery_a': player.session.config['lottery_a'],
+            'lottery_b_lo': player.session.config['lottery_b_lo'],
+            'lottery_b_hi': player.session.config['lottery_b_hi'],
             'choice_to_pay':  [choice_to_pay],
             'option_to_pay':  player.option_to_pay,
             'payoff':         player.payoff
