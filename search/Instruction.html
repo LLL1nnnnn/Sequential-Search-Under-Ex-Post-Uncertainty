@@ -14,7 +14,7 @@
     by clicking on <b>Search</b> button. 
     For each item, there are two possible outcomes: <b>{{ value_high }}</b> points and 
     <b>{{ value_low }}</b> points. 
-    The items differ in probability of getting {{ value_high }}. 
+    The items differ in probability of getting {{ value_high }} points. 
 
     After each search, you will know the <b>probability</b> <math><b>p</b></math> of the item you just searched, 
     where <math><b>p</b></math> is the probability of getting {{ value_high }} points. 
@@ -71,15 +71,15 @@
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
         {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
-        <math>- 4 &times; {{ search_cost }} + {{ value_high }} = 480 points</math> 
-        or <math>- 4 &times; {{ search_cost }} + {{ value_low }} = 80 points</math>. 
+        <math>- 4 &times; {{ search_cost }} points + {{ value_high }} points = 480 points</math> 
+        or <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math>. 
     </p>
     {% elif value_high == 200 %}
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
         {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
-        <math>- 4 &times; {{ search_cost }} + {{ value_high }} = 180 points</math> 
-        or <math>- 4 &times; {{ search_cost }} + {{ value_low }} = 80 points</math>. 
+        <math>- 4 &times; {{ search_cost }} points + {{ value_high }} points = 180 points</math> 
+        or <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math>. 
     </p>
     {% endif %}
 {% endif %}
