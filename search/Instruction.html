@@ -1,0 +1,93 @@
+{% extends "global/Page.html" %}
+
+{% block title %}Instruction{% endblock %}
+
+{% block content %}
+
+<p>
+    In the first task, you will play {{Constants.num_rounds}} rounds of the search game. 
+</p>
+
+<p>
+    In each round, you are going to search for an item to purchase. You start with no item on your searched list. 
+    You can choose to search for the next item at a constant cost of <b>{{ search_cost }}</b>  per search 
+    by clicking on <b>Search</b> button. 
+    For each item, there are two possible outcomes: <b>{{ value_high }}</b> and 
+    <b>{{ value_low }}</b>. 
+    The items differ in probability of getting {{ value_high }}. 
+
+    After each search, you will know the <b>probability</b> <math><b>p</b></math> of the item you just searched, 
+    where <math><b>p</b></math> is the probability of getting {{ value_high }}. 
+</p>
+
+<p>
+    With the current searched list, you can choose to purchase any item by entering the <b>Search No.</b> of the 
+    item that you want to purchse in the box and clicking on the <b>Purchase</b> button; or you may keep searching 
+    for the next new item at cost of <b>{{ search_cost }}</b>. 
+    The round ends when you make a purchase. 
+</p>
+
+
+
+{% if certainty == True %}
+    <p>
+        The value you receive from the item you choose to purchase is 
+        <math>{{ value_high }} &times; p + {{ value_low }} &times; (1 - p)</math>. 
+    </p>
+
+    <p>
+        Suppose you have searched <b><math>n</math></b> times in this round, your payoff in this round is 
+        <math><b> - n &times; {{ search_cost }} + {{ value_high }} &times; p 
+            + {{ value_low }} &times; (1 - p)</b></math>. 
+    </p>
+
+    {% if value_high == 500 %}
+    <p>
+        Example. Suppose you have searched 4 times and the item you choose to purchase has 
+        <b>Probability of Being {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), 
+        then your payoff is calculated as <math> - 4 &times; {{ search_cost }} + {{ value_high }} &times; 0.75 
+            + {{ value_low }} &times; (1 - 0.75) = 380</math>. 
+    </p>
+    {% elif value_high == 200 %}
+    <p>
+        Example. Suppose you have searched 4 times and the item you choose to purchase has 
+        <b>Probability of Being {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), 
+        then your payoff is calculated as <math> - 4 &times; {{ search_cost }} + {{ value_high }} &times; 0.75 
+            + {{ value_low }} &times; (1 - 0.75) = 155</math>. 
+    </p>
+    {% endif %}
+{% else %}
+    <p>
+        The value you receive from the item you choose to purchase is either 
+        <math>{{ value_high }}</math> or <math>{{ value_low }}</math>. 
+    </p>
+
+    <p>
+        Suppose that you have searched <math>n</math> times in this round, then your payoff in this round is 
+        <math><b>- n &times; {{ search_cost }} + {{ value_high }}</b></math>
+        or <math><b>- n &times; {{ search_cost }} + {{ value_low }}</b></math>. 
+    </p>
+    {% if value_high == 500 %}
+    <p>
+        Example. Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
+        {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
+        <math>- 4 &times; {{ search_cost }} + {{ value_high }} = 480 points</math> 
+        or <math>- 4 &times; {{ search_cost }} + {{ value_low }} = 80 points</math>. 
+    </p>
+    {% elif value_high == 200 %}
+    <p>
+        Example. Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
+        {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
+        <math>- 4 &times; {{ search_cost }} + {{ value_high }} = 180 points</math> 
+        or <math>- 4 &times; {{ search_cost }} + {{ value_low }} = 80 points</math>. 
+    </p>
+    {% endif %}
+{% endif %}
+
+<p>
+    Please click on <b>Next</b> button to start your search task. 
+</p>
+
+{% next_button %}
+
+{% endblock %}

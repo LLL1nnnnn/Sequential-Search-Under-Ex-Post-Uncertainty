@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+    Final Results
+{% endblock %}
+
+{% block content %}
+
+<p>
+    Your total payoff from both search task and multiple price list task is {{participant.payoff}}. 
+</p>
+
+<p>
+    Please click on <b>Next</b> button to complete the survey. 
+</p>
+
+
+{% next_button %}
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "global/Page.html" %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    Instructions
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+<p>
+    In the second task, you will face 10 decisions listed on your screen. Each decision is a paired choice 
+    between "Option A" and "Option B". The payoff for "Option A" is always fixed and the payoff for "Option B" 
+    can be high or low. While the payoffs of the two options are fixed for all decisions, the chance of getting
+    the high outcome for "Option B" varies among the 10 decisions.
+</p>
+<p>
+    After you have made all of your choices, one of the 10 decisions will be randomly chosen for your payment. 
+    In this decision, your payoff depends on the option you chose (A or B). If you chose "Option A", you will 
+    get a sure payment; if you chose "Option B", your payoff will be randomly determined according to the 
+    corresponding probabilities. 
+</p>
+<p>
+    To summarize: You will make 10 choices; for each decision you will have to choose between "Option A" and "Option B". 
+    You may choose "Option A" for some decision rows and "Option B" for other rows. When you are finished, one of the 
+    10 decisions will be randomly picked for your payoff. Then a random pick will determine your payment for the option 
+    you chose in that decision.
+</p>
+{% next_button %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+    Search Task Results
+{% endblock %}
+
+{% block content %}
+
+<p>
+    Congratulations, You have completed the search task! 
+</p>
+
+<p>
+    Your total payoff from the search task is <b>{{participant.payoff}}</b>. 
+</p>
+
+<p>
+    Please click on <b>Next</b> button so that you will be directed to the next task. 
+</p>
+{% next_button %}
+
+{% endblock %}

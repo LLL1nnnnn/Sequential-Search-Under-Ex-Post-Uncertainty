@@ -2,23 +2,45 @@ from os import environ
 
 
 SESSION_CONFIGS = [
+    # dict(
+    #     name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
+    # ),
+    # dict(
+    #     name='certainty', app_sequence=['certainty'],
+    #     num_demo_participants=2
+    # ),
     dict(
-        name='public_goods',
-        app_sequence=['public_goods', 'payment_info'],
-        num_demo_participants=3,
+        name='mpl', app_sequence=['mpl'],
+        num_demo_participants=1,
+        lottery_a = 280, 
+        lottery_b_hi = 500,
+        lottery_b_lo = 100, 
     ),
     dict(
-        name='guess_two_thirds',
-        display_name="Guess 2/3 of the Average",
-        app_sequence=['guess_two_thirds', 'payment_info'],
-        num_demo_participants=3,
+        name='search_experiment_1', app_sequence=['search','mpl','demographics'],
+        num_demo_participants=1,
+        # config_file = "search_pilot.csv",
+        value_high = 500,
+        value_low = 100,
+        search_cost = 5,
+        lottery_a = 280, 
+        lottery_b_hi = 500,
+        lottery_b_lo = 100, 
+        certainty = True, 
+        random = True,
     ),
     dict(
-        name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
-    ),
-    dict(
-        name='certainty', app_sequence=['certainty'],
-        num_demo_participants=2
+        name='search_experiment_2', app_sequence=['search','mpl','demographics'],
+        num_demo_participants=1,
+        # config_file = "search_pilot.csv",
+        value_high = 200,
+        value_low = 100,
+        search_cost = 5,
+        lottery_a = 145, 
+        lottery_b_hi = 200,
+        lottery_b_lo = 100, 
+        certainty = True, 
+        random = True,
     ),
 ]
 

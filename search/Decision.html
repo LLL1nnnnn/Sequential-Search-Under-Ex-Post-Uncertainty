@@ -1,0 +1,88 @@
+{% extends "global/Page.html" %}
+
+{% block styles %}
+    <link href="{% static 'search/css/custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Searched List
+{% endblock %}
+
+{% block content %}
+<p>
+    This is <b>round {{player.round_number}}</b>. 
+</p>
+<p>
+    The two possible outcomes for each item are: {{ value_high }} points and {{ value_low }} points. 
+</p>
+<p>
+    The constant search cost is {{ search_cost }} points. 
+</p>
+
+<p>
+    You can search for the next item by clicking on <b>Search</b> button. 
+</p>
+
+
+<div class="wrapper">
+<div class="card">
+<table id='history' class='table'>
+    <thead>
+        <tr class="header">
+            <th class="search_no"> Search No. </th>
+            <th class="probability"> Probability of Getting {{ value_high }} </th>
+            <th class="probability"> Probability of Getting {{ value_low }} </th>
+        </tr>
+    </thead>
+</table>
+</div>
+<p></p>
+<button type='button' id='searchbutton'>Search</button>
+<p></p>
+
+<h2>
+    Purchase Decision
+</h2>
+<p>
+    Please enter the <b>Search No.</b> of the product that you want to purchse in the box below. 
+    Then click on <b>Purchase</b> button to submit your decision. 
+</p>
+
+<input id='purchaseinput' type='number'>
+<button type='button' id='purchasebutton'>Purchase</button>
+
+<script>
+    let history = document.getElementById('history')
+    let searchbutton = document.getElementById('searchbutton');
+    let purchaseinput = document.getElementById('purchaseinput');
+    let purchasebutton = document.getElementById('purchasebutton');
+
+    var i = 1;
+    var tmp = 0;
+    function liveRecv(data) {
+        if (data.type === 'game_finished') {
+            document.getElementById("form").submit();
+        }
+        tmp = 1 - data.probability; 
+        q = tmp.toPrecision(2); 
+        history.innerHTML += '<table><tbody><tr><td class="search_no">' + i + '</td>' + '<td class="probability">' + data.probability + '</td>' + '<td class="probability">' + q + '</td></tr></tbody></table>';
+        i += 1
+    }
+
+    searchbutton.onclick = function () {
+        console.log('send')
+        liveSend({
+            'type': 'search'
+        })
+    }
+
+    purchasebutton.onclick = function () {
+        liveSend({
+            'type': 'purchase',
+            'i': parseInt(purchaseinput.value)
+        })
+    }
+
+</script>
+
+{% endblock %}

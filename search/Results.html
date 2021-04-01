@@ -1,0 +1,44 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block content %}
+<p>
+    This is <b>round {{player.round_number}}</b>. 
+</p>
+
+<p>
+    The total number of searches you made in this round is <b>{{player.number_of_search}}</b>. 
+</p>
+
+{% if certainty == True %}
+    <p>
+        Your payoff from round {{player.round_number}} is <math> - {{player.number_of_search}} &times; 
+            {{ search_cost }} + {{ value_high }} &times; {{player.probability}} 
+            + {{ value_low }} &times; (1 - {{player.probability}}) = </math> <b>{{player.payoff}}</b>. 
+    </p>
+{% else %}
+    {% if player.probability >= player.threshold %}
+        <p>
+            The random outcome of the item you purchase is {{ value_high }}. 
+        </p>
+        <p>
+            Your payoff from round {{player.round_number}} is <math> - {{player.number_of_search}} &times; 
+                {{ search_cost }} + {{ value_high }} = </math> <b>{{player.payoff}}</b>. 
+        </p>
+    {% else %}
+        <p>
+            The random outcome of the item you purchase is {{ value_low }}. 
+        </p>
+        <p>
+            Your payoff from round {{player.round_number}} is <math>  {{player.number_of_search}} &times; 
+                {{ search_cost }} + {{ value_low }} = </math> <b>{{player.payoff}}</b>. 
+        </p>
+    {% endif %}
+{% endif %}
+
+{% next_button %}
+
+{% endblock %}
