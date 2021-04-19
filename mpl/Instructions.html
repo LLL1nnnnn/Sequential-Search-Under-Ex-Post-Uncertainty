@@ -14,23 +14,47 @@
 {# ****************************************************************************************************************** #}
 {% block content %}
 <p>
-    In the second task, you will face 10 decisions listed on your screen. Each decision is a paired choice 
-    between "Option A" and "Option B". The payoff for "Option A" is always fixed and the payoff for "Option B" 
-    can be high or low. While the payoffs of the two options are fixed for all decisions, the chance of getting
-    the high outcome for "Option B" varies among the 10 decisions.
+    In the second task, you will be making choices between two lotteries represented as "Option A" and "Option B". 
+    The payoff for "Option A" is always fixed at {{ lottery_a }} points and the payoff for "Option B" can be either 
+    {{ lottery_b_hi }} points or {{ lottery_b_lo }} points. 
+    Each row of the decision table contains a pair of choices between "Option A" and "Option B".
+    You make your choice by clicking on one of the radio buttons to the left of both options. 
+    Only one option in each row can be selected, and you may change your decision as you wish. 
+    While the payoffs of the two options are fixed for all decisions, the chance of getting the two outcomes for 
+    "Option B" varies among the ten decisions. 
 </p>
 <p>
-    After you have made all of your choices, one of the 10 decisions will be randomly chosen for your payment. 
-    In this decision, your payoff depends on the option you chose (A or B). If you chose "Option A", you will 
-    get a sure payment; if you chose "Option B", your payoff will be randomly determined according to the 
-    corresponding probabilities. 
+    Even though you will make ten decisions, only one of these will end up being used. The selection of the one 
+    to be used depends on the computer's random number generator. No decision is any more likely to be used than 
+    any other, and you will not know in advance which one will be selected, so please think about each one carefully. 
+    This random selection of a decision fixes the row (i.e. the Decision) that will be used.
 </p>
 <p>
+    After the Decision row is selected, your payoff depends on the option you chose (A or B). 
+    If you chose "Option A", you will get a sure payment of {{ lottery_a }} points; if you chose "Option B", 
+    your payoff will be randomly determined according to the corresponding probabilities for {{ lottery_b_hi }} 
+    points or {{ lottery_b_lo }} points. 
+</p>
+<!-- <p>
     To summarize: You will make 10 choices; for each decision you will have to choose between "Option A" and "Option B". 
     You may choose "Option A" for some decision rows and "Option B" for other rows. When you are finished, one of the 
     10 decisions will be randomly picked for your payoff. Then a random pick will determine your payment for the option 
     you chose in that decision.
+</p> -->
+
+<p>
+    To summarize, you will indicate an option, A or B, for each of the rows by clicking on the "radio buttons" 
+    on the left side of the options. 
+    Then a random number fixes which row of the table (i.e. which decision) is relevant for your earnings.
+    In that row, your decision fixed the choice for that row, Option A or Option B. If you chose Option A, 
+    then you get a sure payoff; if you chose Option B, then a final random number will determine the money 
+    payoff for the decision you made.
 </p>
+
+<p>
+    Please click on <b>Next</b> button to start your second task. 
+</p>
+
 {% next_button %}
 
 {% endblock %}

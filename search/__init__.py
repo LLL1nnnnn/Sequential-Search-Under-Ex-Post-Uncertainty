@@ -160,6 +160,8 @@ class Decision(Page):
         elif data['type'] == 'purchase':
             probabilities = Decision.probabilities[my_id]
             # print(probabilities)
+            if data['i'] <= 0:
+                raise ValueError('index <= 0') 
             player.probability = Decision.probabilities[my_id][data['i'] - 1]
             player.threshold = random.uniform(0, 1) 
             player.compute_player_payoff()

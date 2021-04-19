@@ -98,6 +98,14 @@ class Instructions(Page):
     def is_displayed(self):
         return self.subsession.round_number == 1
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'lottery_a': player.session.config['lottery_a'],
+            'lottery_b_lo': player.session.config['lottery_b_lo'],
+            'lottery_b_hi': player.session.config['lottery_b_hi'],
+        }
+
 
 class Decision(Page):
     form_model = 'player'

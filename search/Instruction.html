@@ -44,14 +44,14 @@
     {% if value_high == 500 %}
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has 
-        <b>Probability of Being {{ value_high }}</b> points as 0.75 (<math>p = 0.75</math>), 
+        <b>Probability of Getting {{ value_high }} points</b> as 0.75 (<math>p = 0.75</math>), 
         then your payoff is calculated as <math> - 4 &times; {{ search_cost }} points + {{ value_high }} points &times; 0.75 
             + {{ value_low }} points &times; (1 - 0.75) = 380</math>. 
     </p>
     {% elif value_high == 200 %}
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has 
-        <b>Probability of Being {{ value_high }}</b> points as 0.75 (<math>p = 0.75</math>), 
+        <b>Probability of Getting {{ value_high }} points</b> as 0.75 (<math>p = 0.75</math>), 
         then your payoff is calculated as <math> - 4 &times; {{ search_cost }} points + {{ value_high }} points &times; 0.75 
             + {{ value_low }} points &times; (1 - 0.75) = 155</math>. 
     </p>
@@ -70,14 +70,14 @@
     {% if value_high == 500 %}
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
-        {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
+        {{ value_high }} points</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
         <math>- 4 &times; {{ search_cost }} points + {{ value_high }} points = 480 points</math> 
         or <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math>. 
     </p>
     {% elif value_high == 200 %}
     <p>
         Example. Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
-        {{ value_high }}</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
+        {{ value_high }} points</b> as 0.75 (<math>p = 0.75</math>), then your payoff could either be 
         <math>- 4 &times; {{ search_cost }} points + {{ value_high }} points = 180 points</math> 
         or <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math>. 
     </p>
