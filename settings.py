@@ -17,6 +17,10 @@ SESSION_CONFIGS = [
         lottery_b_lo = 100, 
     ),
     dict(
+        name='demo', app_sequence=['demographics'],
+        num_demo_participants=1,
+    ),
+    dict(
         name='search_experiment_1', app_sequence=['search','mpl','demographics'],
         num_demo_participants=1,
         # config_file = "search_pilot.csv",

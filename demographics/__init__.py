@@ -20,7 +20,7 @@ class Player(BasePlayer):
     first_name = models.StringField(label='What is your first name?')
     ucscID = models.IntegerField(label='What is your UCSC student ID number', min=0000000, max=9999999)
     email = models.StringField(label='What is your UCSC email address?')
-    age = models.IntegerField(label='What is your age?', min=13, max=100)
+    # age = models.IntegerField(label='What is your age?', min=13, max=100)
     gender = models.StringField(
         choices=[['Male', 'Male'], ['Female', 'Female'], ['Other', 'Other']], 
         label='What is your gender?',
@@ -45,7 +45,7 @@ class Player(BasePlayer):
 # PAGES
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['last_name', 'first_name', 'ucscID', 'email', 'age', 'gender', 'ethnicity', 'participantID', 'venmoID', 'searchcomment', 'stopcomment', 'suggest']
+    form_fields = ['last_name', 'first_name', 'ucscID', 'email', 'gender', 'ethnicity', 'participantID', 'venmoID', 'searchcomment', 'stopcomment', 'suggest']
 
 
 class Results(Page):
