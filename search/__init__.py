@@ -12,7 +12,7 @@ Sequential search task
 class Constants(BaseConstants):
     name_in_url = 'search'
     players_per_group = None
-    num_rounds = 10
+    num_rounds = 20
     # endowment = 100
     # search_cost = 5
     # value_high = 500
