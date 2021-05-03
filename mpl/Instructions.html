@@ -1,11 +1,14 @@
 {% extends "global/Page.html" %}
 
+{% block styles %}
+    <link href="{% static 'mpl/css/custom.css' %}" rel="stylesheet">
+{% endblock %}
 
 {# ****************************************************************************************************************** #}
 {# *** TITLE *** #}
 {# ****************************************************************************************************************** #}
 {% block title %}
-    Instructions
+    Instruction
 {% endblock %}
 
 
@@ -14,26 +17,35 @@
 {# ****************************************************************************************************************** #}
 {% block content %}
 <p>
-    In the second task, you will be making choices between two lotteries represented as "Option A" and "Option B". 
-    The payoff for "Option A" is always fixed at {{ lottery_a }} points and the payoff for "Option B" can be either 
-    {{ lottery_b_hi }} points or {{ lottery_b_lo }} points. 
-    Each row of the decision table contains a pair of choices between "Option A" and "Option B".
+    In the second task, you will be making 10 decisions. Each decision corresponds to the choice between <b>Option A</b> and 
+    <b>Option B</b>. Since there is no right answer, the decision merely reflects your preference. 
+</p>
+
+<p>
+    Option A always offers <b>{{ lottery_a }}</b> points for sure, while Option B offers a centain chance to receive 
+    <b>{{ lottery_b_hi }}</b> points and a certain chance to receive <b>{{ lottery_b_lo }}</b> points. 
+    
+    Each row of the decision table contains a pair of choices between Option A and Option B.
     You make your choice by clicking on one of the radio buttons to the left of both options. 
     Only one option in each row can be selected, and you may change your decision as you wish. 
     While the payoffs of the two options are fixed for all decisions, the chance of getting the two outcomes for 
-    "Option B" varies among the ten decisions. 
+    Option B varies among the 10 decisions. 
 </p>
 <p>
-    Even though you will make ten decisions, only one of these will end up being used. The selection of the one 
+    Even though you will make 10 decisions, only one of these will end up being used. The selection of the one 
     to be used depends on the computer's random number generator. No decision is any more likely to be used than 
-    any other, and you will not know in advance which one will be selected, so please think about each one carefully. 
-    This random selection of a decision fixes the row (i.e. the Decision) that will be used.
+    any other, and you will not know in advance which one will be selected, so please think about each decision carefully. 
+    This random selection of a decision fixes the row (i.e. the decision) that will be used.
 </p>
 <p>
-    After the Decision row is selected, your payoff depends on the option you chose (A or B). 
-    If you chose "Option A", you will get a sure payment of {{ lottery_a }} points; if you chose "Option B", 
-    your payoff will be randomly determined according to the corresponding probabilities for {{ lottery_b_hi }} 
-    points or {{ lottery_b_lo }} points. 
+    After the decision row is selected, your payoff depends on the option you chose (Option A or Option B). 
+
+    If you chose Option A, you will receive <b>{{ lottery_a }}</b> points. 
+    If you chose Option B, you can receive either <b>{{ lottery_b_hi }}</b> points <b>or</b> <b>{{ lottery_b_lo }}</b> points. 
+    To determine your earnings in the case you chose Option B, the computer will randomly draw an integer between 1 and 10 
+    (including 1 and 10). For example, suppose that you chose Option B of the decision row which shows "4/10 of {{ lottery_b_hi }} 
+    points, 6/10 of {{ lottery_b_lo }} points", then a random drawn number of 1, 2, 3, or 4 will result in {{ lottery_b_hi }} 
+    points, and a random drawn number of 5, 6, 7, 8, 9, or 10 will result in {{ lottery_b_lo }} points. 
 </p>
 <!-- <p>
     To summarize: You will make 10 choices; for each decision you will have to choose between "Option A" and "Option B". 
@@ -52,9 +64,12 @@
 </p>
 
 <p>
+    Please raise your hand if you finish reading the instruction and are ready to play the game. 
+</p>
+<!-- <p>
     Please click on <b>Next</b> button to start your second task. 
 </p>
 
-{% next_button %}
+{% next_button %} -->
 
 {% endblock %}

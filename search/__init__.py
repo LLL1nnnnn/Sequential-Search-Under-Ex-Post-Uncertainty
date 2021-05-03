@@ -64,7 +64,7 @@ def creating_session(subsession: Subsession):
     # config = self.config
     # if not config:
     #     return
-    print("creating session")
+    # print("creating session")
     n = 50
     for p in subsession.get_players():
         indices = [j for j in range(1, n + 1)]
@@ -84,6 +84,7 @@ class Player(BasePlayer):
     probability = models.FloatField()
     total_cost = models.IntegerField() 
     threshold = models.FloatField()
+
     
     # no dynamic creating fields 
     for i in range(1, 51): 
@@ -120,12 +121,12 @@ class Player(BasePlayer):
 # PAGES
 
 class Cover(Page):
-    print('cover')
+    # print('cover')
     def is_displayed(self):
         return self.round_number == 1
 
 class Instruction(Page):
-    print('instruction')
+    # print('instruction')
     def is_displayed(self):
         return self.round_number == 1
 
