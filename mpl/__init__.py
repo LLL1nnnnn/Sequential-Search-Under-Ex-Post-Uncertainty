@@ -36,9 +36,8 @@ class Constants(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-
 def creating_session(subsession: Subsession):
-     # if self.round_number == 1:
+    # if self.round_number == 1:
     n = Constants.num_choices
     for p in subsession.get_players():
         indices = [j for j in range(1, n + 1)]
@@ -147,7 +146,7 @@ class Decision(Page):
 
 class Results(Page):
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds
+        return self.subsession.round_number == Constants.num_rounds
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -170,7 +169,15 @@ class Results(Page):
 
 class FinalResults(Page):
     def is_displayed(self):
-        return self.round_number == Constants.num_rounds
+        return self.subsession.round_number == Constants.num_rounds
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        total_pay = player.payoff + player.participant.vars['search_pay']
+        return {
+            'search_pay': player.participant.vars['search_pay'], 
+            'total_pay': total_pay, 
+        }
 
 
 page_sequence = [Instructions, Decision, Results, FinalResults]

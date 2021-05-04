@@ -12,7 +12,7 @@ Sequential search task
 class Constants(BaseConstants):
     name_in_url = 'search'
     players_per_group = None
-    num_rounds = 20
+    num_rounds = 3
     # endowment = 100
     # search_cost = 5
     # value_high = 500
@@ -72,6 +72,7 @@ def creating_session(subsession: Subsession):
         p.participant.vars['probabilities'] = list(
             zip(indices, form_fields)
             )
+        p.participant.vars['search_pay'] = int(0)
         # print(p.participant.vars['probabilities'])
 
 
@@ -84,6 +85,8 @@ class Player(BasePlayer):
     probability = models.FloatField()
     total_cost = models.IntegerField() 
     threshold = models.FloatField()
+    paying_round = models.IntegerField()
+    final_pay = models.CurrencyField()
 
     
     # no dynamic creating fields 
@@ -104,6 +107,7 @@ class Player(BasePlayer):
             else: 
                 self.payoff = self.session.config['value_low'] - \
                 self.number_of_search * self.session.config['search_cost']
+
 
 # def compute_player_payoff(player: Player):
 # if Constants.certainty:
@@ -166,6 +170,13 @@ class Decision(Page):
             player.probability = Decision.probabilities[my_id][data['i'] - 1]
             player.threshold = random.uniform(0, 1) 
             player.compute_player_payoff()
+
+            # specify paying round 
+            if player.round_number == Constants.num_rounds:
+                player.paying_round = random.randint(3, Constants.num_rounds)
+                player.final_pay = player.in_round(player.paying_round).payoff
+                player.participant.vars['search_pay'] = player.final_pay
+
             Decision.probabilities[my_id] = []
             
             response = {
@@ -218,6 +229,13 @@ class Results(Page):
 class FinalResults(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'paying_round': player.paying_round,
+            'random_payoff': player.final_pay,
+        }   
 
 
 
