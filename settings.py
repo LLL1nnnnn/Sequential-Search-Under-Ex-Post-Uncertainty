@@ -114,7 +114,7 @@ ROOMS = [
         name='sequential_search',
         display_name='Sequential Search',
         participant_label_file='_rooms/participant_label.txt',
-        use_secure_urls=True
+        # use_secure_urls=True
     )
 ]
 
