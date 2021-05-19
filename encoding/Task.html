@@ -1,0 +1,60 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+    <link href="{% static 'encoding/css/custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Encoding Task
+{% endblock %}
+
+{% block content %}
+    <p>
+        This is round {{ player.round_number }}
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>Word: </th>
+            <th class="word">{{ letter_1 }}</th>
+            <th class="word">{{ letter_2 }}</th>
+            <th class="word">{{ letter_3 }}</th>
+        </tr>
+        <tr>
+            <th>Code: </th>
+            {% for field in form %} 
+                <th>{% field %}</th>
+            {% endfor %}
+        </tr>
+    </table>
+
+    <table class="table">
+        <thead>
+            <th colspan="26">Encryption Table</th>
+        </thead>
+        <tr>
+            {% for key, value in dict1.items %}
+                <th class="word"> {{ key }} </th>                   
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for key, value in dict1.items %}
+                <td> {{ value }} </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for key, value in dict2.items %}
+                <th class="word"> {{ key }} </th>                   
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for key, value in dict2.items %}
+                <td> {{ value }} </td>
+            {% endfor %}
+        </tr>
+    </table>
+
+    {% next_button %}
+
+{% endblock %}

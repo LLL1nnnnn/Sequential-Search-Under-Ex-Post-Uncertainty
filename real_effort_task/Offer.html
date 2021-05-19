@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+
+{% block title %}Wage Offer{% endblock %}
+{% block content %}
+
+    <p>
+    You are <b>Employer</b>.  
+    </p>
+
+    <p> 
+        How much will you offer to Worker for completing 15 rounds of word encoding task? 
+    </p>
+
+    {% formfields %}
+    <p>
+    {% next_button %}
+    </p>
+
+    {% include Constants.instructions_template %}
+
+{% endblock %}

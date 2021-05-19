@@ -59,6 +59,29 @@ SESSION_CONFIGS = [
         certainty = True, 
         random = True,
     ),
+    dict(
+        name='real_effort_task', 
+        app_sequence=['real_effort_task'],
+        num_demo_participants=2,
+        policy = True,
+        min_wage = 80,
+        wage_low = 10,
+        wage_high = 100,
+    ),
+    dict(
+        name='encoding', 
+        app_sequence=['encoding'],
+        num_demo_participants=1,
+    ),
+    dict(
+        name='real_effort_wage', 
+        app_sequence=['encoding_simple', 'real_effort_task', 'encoding'],
+        num_demo_participants=2,
+        policy = True,
+        min_wage = 80,
+        wage_low = 10,
+        wage_high = 100,
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -84,7 +107,15 @@ ROOMS = [
         display_name='Econ 101 class',
         participant_label_file='_rooms/econ101.txt',
     ),
-    dict(name='live_demo', display_name='Room for live demo (no participant labels)'),
+    dict(name='live_demo', 
+        display_name='Room for live demo (no participant labels)'
+    ),
+    dict(
+        name='sequential_search',
+        display_name='Sequential Search',
+        participant_label_file='_rooms/participant_label.txt',
+        use_secure_urls=True
+    )
 ]
 
 ADMIN_USERNAME = 'admin'

@@ -1,0 +1,37 @@
+{% extends "global/Page.html" %}
+
+{% block title %}Results{% endblock %}
+{% block content %}
+
+    {% if player.id_in_group == 1 %}
+        <p>
+            You chose to offer the worker a wage of {{ group.wage_offer }}.
+        </p>
+        <p>
+            {% if decision == "Accept" %}
+            The worker accepted your wage offer. 
+            {% else %}
+            The worker rejected your wage offer. 
+            {% endif %}
+        </p>
+    {% else %}
+        <p>
+            Employer offered you a wage of {{ group.wage_offer }}.
+        </p>
+        <p>
+            Your reservation wage is {{ group.reservation_wage }}.
+        </p>
+        <p>
+            {% if decision == "Accept" %}
+            You chose to accept it.
+            {% else %}
+            You chose to reject it.
+            {% endif %}
+        </p>
+    {% endif %}
+
+    <p>{% next_button %}</p>
+
+    {% include Constants.instructions_template %}
+
+{% endblock %}
