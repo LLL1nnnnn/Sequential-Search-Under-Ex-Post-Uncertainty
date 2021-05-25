@@ -1,15 +1,7 @@
-from otree.api import (
-    Page,
-    WaitPage,
-    models,
-    widgets,
-    BaseConstants,
-    BaseSubsession,
-    BaseGroup,
-    BasePlayer,
-    Currency as c,
-    currency_range,
-)
+from otree.api import *
+
+c = Currency
+
 import random 
 
 
@@ -38,14 +30,14 @@ class Group(BaseGroup):
         min=Constants.wage_low,
         max=Constants.wage_high,
         doc="""Wage offered by employer""",
-        label="Please enter a wage offer. ",
+        label="Please enter a wage offer (between 0 and 100). ",
     )
 
     reservation_wage = models.CurrencyField(
         min=Constants.wage_low,
         max=Constants.wage_high,
         doc="""Reservation wage of employee""",
-        label="Please enter an amount that you are willing to accept the job.",
+        label="Please enter an amount (between 0 and 100) that you are willing to accept the job.",
     )
 
     decision = models.StringField()
@@ -154,14 +146,17 @@ class Results(Page):
         group = player.group
         if group.wage_offer >= group.reservation_wage:
             group.decision = 'Accept'
+            player.participant.match = True
         else: 
             group.decision = 'Reject'
+            player.participant.match = False
         return {
             'wage_low': Constants.wage_low, 
             'wage_high': Constants.wage_high, 
             'policy': Constants.policy,
             'min_wage': Constants.min_wage, 
-            'decision': group.decision
+            'decision': group.decision,
+            'match': player.participant.match, 
         }
 
 

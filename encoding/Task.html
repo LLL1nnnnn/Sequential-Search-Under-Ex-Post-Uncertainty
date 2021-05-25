@@ -29,6 +29,7 @@
         </tr>
     </table>
 
+    
     <table class="table">
         <thead>
             <th colspan="26">Encryption Table</th>
@@ -38,7 +39,7 @@
                 <th class="word"> {{ key }} </th>                   
             {% endfor %}
         </tr>
-        <tr>
+        <tr class="noselect">
             {% for key, value in dict1.items %}
                 <td> {{ value }} </td>
             {% endfor %}
@@ -48,12 +49,13 @@
                 <th class="word"> {{ key }} </th>                   
             {% endfor %}
         </tr>
-        <tr>
+        <tr class="noselect">
             {% for key, value in dict2.items %}
                 <td> {{ value }} </td>
             {% endfor %}
         </tr>
     </table>
+    </p>
 
     {% next_button %}
 

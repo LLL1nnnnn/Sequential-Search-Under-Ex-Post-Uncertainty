@@ -1,16 +1,7 @@
 from otree.api import *
-from otree.api import (
-    Page,
-    WaitPage,
-    models,
-    widgets,
-    BaseConstants,
-    BaseSubsession,
-    BaseGroup,
-    BasePlayer,
-    Currency as c,
-    currency_range,
-)
+
+c = Currency
+
 import random 
 
 
@@ -22,7 +13,7 @@ Real Effort Task of Encoding Letters
 class Constants(BaseConstants):
     name_in_url = 'encoding'
     players_per_group = None
-    num_rounds = 10
+    num_rounds = 15
     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     point_per_correct_combo = 10
 
@@ -78,8 +69,10 @@ class Player(BasePlayer):
     def set_payoffs(self): 
         if self.num_entered_1 == self.correct_num_1 and self.num_entered_2 == self.correct_num_2 and self.num_entered_3 == self.correct_num_3:
             self.payoff = Constants.point_per_correct_combo
+            # self.participant.encoding_payoff += self.payoff
         else:
             self.payoff = 0
+            # self.participant.encoding_payoff += self.payoff
 
 
 
@@ -141,4 +134,6 @@ class Results(Page):
 
 
 
-page_sequence = [Introduction, Task, Results]
+# page_sequence = [Introduction, Task, Results]
+
+page_sequence = [Task, Results]

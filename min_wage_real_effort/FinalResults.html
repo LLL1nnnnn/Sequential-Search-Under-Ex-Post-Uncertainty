@@ -2,12 +2,15 @@
 {% load otree static %}
 
 {% block title %}
-    Page title
+    Results
 {% endblock %}
 
 {% block content %}
-
-    {% formfields %}
+    <p>
+        Your payoff from round {{ player.round_number }} is {{ payoff }}. 
+    </p>
+    
     {% next_button %}
-
 {% endblock %}
+
+

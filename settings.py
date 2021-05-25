@@ -82,7 +82,15 @@ SESSION_CONFIGS = [
         wage_low = 10,
         wage_high = 100,
     ),
+    dict(
+        name='min_wage_real_effort',
+        app_sequence=['encoding_simple', 'min_wage_real_effort'],
+        num_demo_participants=2,
+    )
 ]
+
+PARTICIPANT_FIELDS = ['match', 'encoding_payoff']
+
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
 # in SESSION_CONFIGS, except those that explicitly override it.
@@ -90,7 +98,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=0.01, participation_fee=2.00, doc=""
 )
 
 # ISO-639 code

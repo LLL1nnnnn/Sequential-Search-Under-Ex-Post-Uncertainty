@@ -40,25 +40,7 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
     pass
-    # pass 
-    # print('subsession')
-    # def endowment(self):
-    #     return parse_config(self.session.config['config_file'])[0]['endowment']
 
-    # def value_high(self):
-    #     return parse_config(self.session.config['config_file'])[0]['value_high']
-
-    # def value_low(self):
-    #     return parse_config(self.session.config['config_file'])[0]['value_low']
-
-    # def search_cost(self):
-    #     return parse_config(self.session.config['config_file'])[0]['search_cost']
-
-    # def certainty(self):
-    #     return parse_config(self.session.config['config_file'])[0]['certainty']
-
-    # def random(self):
-    #     return parse_config(self.session.config['config_file'])[0]['random']
 
 def creating_session(subsession: Subsession):
     # config = self.config

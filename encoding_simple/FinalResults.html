@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block content %}
+    <p>
+        After seeing the word encoding task, you will be directed to the matching round, where you will be 
+        randomly and anonymously paired with another participant.
+    </p>
+    <p>
+        Please click on Next button if you are ready to see further instructions. 
+    </p>
+    
+    {% next_button %}
+{% endblock %}
+
+

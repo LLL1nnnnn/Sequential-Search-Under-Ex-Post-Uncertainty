@@ -70,6 +70,7 @@ class Player(BasePlayer):
         locals()['choice_' + str(j)] = models.StringField()
     del j
     random_draw = models.IntegerField()
+    total_pay = models.IntegerField()
     choice_to_pay = models.StringField()
     option_to_pay = models.StringField()
 
@@ -173,7 +174,7 @@ class FinalResults(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        total_pay = player.payoff + player.participant.vars['search_pay']
+        player.total_pay = player.payoff + player.participant.vars['search_pay']
         return {
             'search_pay': player.participant.vars['search_pay'], 
             'total_pay': total_pay, 
