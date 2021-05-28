@@ -126,7 +126,7 @@ ROOMS = [
     ),
     dict(
         name='min_wage', 
-        display_name='Room for min wage real effort'
+        display_name='Room for min wage real effort',
         participant_label_file='_rooms/participant_label.txt',
     ),
 ]
