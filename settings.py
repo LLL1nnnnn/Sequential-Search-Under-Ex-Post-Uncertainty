@@ -124,6 +124,10 @@ ROOMS = [
         participant_label_file='_rooms/participant_label.txt',
         # use_secure_urls=True
     )
+    dict(name='min_wage', 
+        display_name='Room for min wage real effort'
+        participant_label_file='_rooms/participant_label.txt',
+    ),
 ]
 
 ADMIN_USERNAME = 'admin'

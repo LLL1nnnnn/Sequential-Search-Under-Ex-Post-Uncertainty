@@ -8,12 +8,20 @@
     </p>
 
     <p> 
-        How much will you offer to Worker for completing 15 rounds of word encoding task? 
+        How much will you offer to Worker for completing the previously seen word encoding task? 
     </p>
-
-    {% formfields %}
     <p>
-    {% next_button %}
+        {% if policy == True %}
+            Please enter a wage offer between {{ min_wage }} and {{ wage_high }}. 
+        {% else %}
+            Please enter a wage offer between {{ wage_low }} and {{ wage_high }}. 
+        {% endif %}
+    </p>
+    <p>
+        {{ form.wage_offer }}
+    </p>
+    <p>
+        {% next_button %}
     </p>
 
     {% include Constants.instructions_template %}

@@ -46,6 +46,9 @@ class Group(BaseGroup):
 
     decision = models.StringField()
 
+    entry = models.IntegerField() 
+    correct_entry = models.IntegerField()
+
 # def make_field(label):
 #     return models.IntegerField()
 
@@ -145,23 +148,38 @@ class Player(BasePlayer):
         label="Code for letter 15",
     )
 
-    def set_payoffs(self): 
-        for i in range(1, 16): 
-            entry = 'num_entered_' + str(i)
-            correct = 'correct_num_' + str(i)
-            if getattr(self, entry) == getattr(self, correct): 
-                self.payoff += Constants.point_per_correct_combo
-                # self.participant.encoding_payoff += self.payoff
-            else:
-                self.payoff += 0
-                # self.participant.encoding_payoff += self.payoff
+    # def set_payoffs(self): 
+    #     for i in range(1, 16): 
+    #         entry = 'num_entered_' + str(i)
+    #         correct = 'correct_num_' + str(i)
+    #         if getattr(self, entry) == getattr(self, correct): 
+    #             self.payoff += Constants.point_per_correct_combo
+    #             # self.participant.encoding_payoff += self.payoff
+    #         else:
+    #             self.payoff += 0
+    #             # self.participant.encoding_payoff += self.payoff
 
 # FUNCTIONS
 def set_payoffs(group: Group):
     employer = group.get_player_by_id(1)
     employee = group.get_player_by_id(2)
-    employer.payoff = 0 - group.wage_offer
-    employee.payoff = group.wage_offer - 0
+    group.entry = 0
+    group.correct_entry = 0
+    for i in range(1, 16): 
+        entry = 'num_entered_' + str(i)
+        correct = 'correct_num_' + str(i)
+        if getattr(employee, entry):
+            group.entry += 1
+        if getattr(employee, entry) == getattr(employee, correct): 
+            group.correct_entry += 1
+        else:
+            group.correct_entry += 0
+    if group.decision == 'Accept': 
+        employer.payoff = Constants.wage_high * (group.correct_entry / group.entry)**0.5 - group.wage_offer
+        employee.payoff = group.wage_offer * group.correct_entry / group.entry
+    else: 
+        employer.payoff = 0
+        employer.payoff = 0
 
 
 # PAGES
@@ -221,8 +239,8 @@ class Reservation(Page):
             'min_wage': Constants.min_wage, 
         }
 
-class ResultsWaitPage(WaitPage):
-    after_all_players_arrive = 'set_payoffs'
+class DecisionWaitPage(WaitPage):
+    pass
 
 
 class Results_Wage(Page):
@@ -342,6 +360,8 @@ class Task(Page):
             'dict2': shuffled_encryption_dict_2,
         }
 
+class ResultsWaitPage(WaitPage):
+    after_all_players_arrive = 'set_payoffs'
 
 class FinalResults(Page):
     # def is_displayed(self):
@@ -349,7 +369,7 @@ class FinalResults(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        player.set_payoffs()
+        group = player.group 
         return{
             'payoff': player.payoff
         }
@@ -361,7 +381,8 @@ class FinalResults(Page):
 page_sequence = [Introduction_Wage,
     Offer,
     Reservation, 
-    ResultsWaitPage,
+    DecisionWaitPage,
     Results_Wage,
     Task, 
+    ResultsWaitPage, 
     FinalResults]
