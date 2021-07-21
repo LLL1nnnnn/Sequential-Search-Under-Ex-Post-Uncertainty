@@ -104,14 +104,14 @@
 
         <p>
             The outcome you receive from the item you purchase is either 
-            <math>{{ value_high }}</math> points or <math>{{ value_low }}</math> points, depending on the <math><b>p</b></math> of that item.
+            <math>{{ value_high }}</math> points OR <math>{{ value_low }}</math> points, depending on the <math><b>p</b></math> of that item.
 
         </p>
 
         <p>
             Suppose that you have searched <math>n</math> times in this round, then your payoff in this round is either 
             <math><b>- n &times; {{ search_cost }} points + {{ value_high }} points </b></math> 
-            or <math><b>- n &times; {{ search_cost }} points + {{ value_low }} points </b></math>. 
+            OR <math><b>- n &times; {{ search_cost }} points + {{ value_low }} points </b></math>. 
         </p>
         {% if value_high == 500 %}
         <p class="borderexample">
@@ -119,7 +119,7 @@
             <br>Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
             {{ value_high }} points</b> as 0.75 (<math>p = 0.75</math>), then your payoff could be either 
             <math>- 4 &times; {{ search_cost }} points + {{ value_high }} points = 480 points</math> with probability 0.75
-            or <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math> with probability 0.25. 
+            OR <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math> with probability 0.25. 
         </p>
         {% elif value_high == 200 %}
         <p class="borderexample">        
@@ -127,7 +127,7 @@
             <br>Suppose you have searched 4 times and the item you choose to purchase has <b>Probability of Getting 
             {{ value_high }} points</b> as 0.75 (<math>p = 0.75</math>), then your payoff could be either 
             <math>- 4 &times; {{ search_cost }} points + {{ value_high }} points = 180 points</math> with probability 0.75
-            or <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math> with probability 0.25. 
+            OR <math>- 4 &times; {{ search_cost }} points + {{ value_low }} points = 80 points</math> with probability 0.25. 
             </p>
         {% endif %}
     {% endif %}
