@@ -75,37 +75,9 @@ SESSION_CONFIGS = [
         certainty = True, 
         random = True,
     ),
-    # dict(
-    #     name='real_effort_task', 
-    #     app_sequence=['real_effort_task'],
-    #     num_demo_participants=2,
-    #     policy = True,
-    #     min_wage = 80,
-    #     wage_low = 10,
-    #     wage_high = 100,
-    # ),
-    # dict(
-    #     name='encoding', 
-    #     app_sequence=['encoding'],
-    #     num_demo_participants=1,
-    # ),
-    # dict(
-    #     name='real_effort_wage', 
-    #     app_sequence=['encoding_simple', 'real_effort_task', 'encoding'],
-    #     num_demo_participants=2,
-    #     policy = True,
-    #     min_wage = 80,
-    #     wage_low = 10,
-    #     wage_high = 100,
-    # ),
-    dict(
-        name='min_wage_real_effort',
-        app_sequence=['encoding_simple', 'min_wage_real_effort', 'survey_mwre'],
-        num_demo_participants=2,
-    )
 ]
 
-PARTICIPANT_FIELDS = ['match', 'encoding_payoff']
+# PARTICIPANT_FIELDS = ['match', 'encoding_payoff']
 
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -139,11 +111,6 @@ ROOMS = [
         display_name='Sequential Search',
         participant_label_file='_rooms/participant_label.txt',
         # use_secure_urls=True
-    ),
-    dict(
-        name='min_wage', 
-        display_name='Room for min wage real effort',
-        participant_label_file='_rooms/participant_label.txt',
     ),
 ]
 
