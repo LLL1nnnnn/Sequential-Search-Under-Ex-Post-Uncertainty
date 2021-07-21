@@ -12,13 +12,11 @@
         You will learn whether you are Employer or Worker prior to making any decision.
     </p>
     <p>
-        The Employer is going to hire a Wroker to complete a word encoding task you just saw. To start, 
-        Employer will send a wage offer to the Worker and the wage offer is an integer between {{ wage_low }}
-        and {{ wage_high }}.
-        In the meantime, Worker will be asked to enter their reservation wage between {{ wage_low }} and 
-        {{ wage_high }} (i.e. the minimal wage to accept the job offer) for completing the task. Then if 
-        Employer's wage offer is greater than the Worker's reservation wage, the computer will automatically 
-        help the Worker to accept it; if not, the compupter will automatcally reject it. 
+        The Employer is going to hire a Worker to complete a word encoding task you just saw. To start, 
+        Employer will send a wage offer to the Worker and the wage offer is an integer above {{ wage_low }}.
+        In the meantime, Worker will be asked to enter their minimal acceptable wage above {{ wage_low }} for completing the task. 
+        Then if Employer's wage offer is greater than the Worker's minimal acceptable wage, the computer will automatically 
+        help the Worker to accept it; if not, the computer will automatically reject it. 
         Then both Employer and Worker will be directed to the word encoding task. 
     </p>
     {% else %}
@@ -29,25 +27,21 @@
     </p>
     <p>
         The Employer is going to hire a Worker to complete a word encoding task you just saw. To start, 
-        Employer will send a wage offer to the Worker, Since the government is implementing the Minimum 
-        Wage policy now, the wage offer should be an integer between minimum wage {{ min_wage }}
-        and {{ wage_high }}.
-        In the meantime, Worker will be asked to enter their reservation wage between {{ wage_low }} and 
-        {{ wage_high }} (i.e. the minimal wage to accept the job offer) for completing the task. Then if 
-        Employer's wage offer is greater than the Worker's reservation wage, the computer will automatically 
-        help the Worker to accept it; if not, the compupter will automatcally reject it. 
+        Employer will send a wage offer to the Worker. Since the government is implementing the <b>Minimum 
+        Wage</b> policy now, the wage offer should be an integer above the minimum wage {{ min_wage }}. 
+        In the meantime, Worker will be asked to enter their minimal acceptable wage above {{ wage_low }} for completing the task. 
+        Then if Employer's wage offer is greater than the Worker's minimal acceptable wage, the computer will automatically 
+        help the Worker to accept it; if not, the computer will automatically reject it. 
         Then both Employer and Worker will be directed to the word encoding task.
     </p>
     {% endif %}
     <p>
-        If the Employer's wage offer is accepted by the Worker, then the payoff for the Employer is <math>
-        100 &times; &radic;<span style="text-decoration:overline;">Accuracy Rate</span> - Wage Offer</math>, 
-        where Accuracy Rate is the proportion of correctly encoded letters out of the total number of letters 
-        that are encoded. 
-        The payoff for the Worker is <math>Wage Offer &times; Accuracy Rate</math>. 
+        If the Employer's wage offer is accepted by the Worker, then the payoff for the Employer is <b><math>
+        {{ base_revenue }} + ({{ point_per_correct_letter }} &times; Number of Correct Entries Made By Worker) - Wage Offer </math></b>.
+        The payoff for the Worker is <b><math>Wage Offer</math></b>. 
 
         If the Employer's wage offer is rejected by the Worker, then the payoff for the Employer and the 
-        Worker is both 0.  
+        Worker is both <b>0 points</b>.  
     </p>
     </div>
 </div>

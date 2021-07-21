@@ -12,13 +12,13 @@
     </p>
     <p>
         {% if policy == True %}
-            Please enter a wage offer between {{ min_wage }} and {{ wage_high }}. 
+            Please enter a wage offer above {{ min_wage }}. 
         {% else %}
-            Please enter a wage offer between {{ wage_low }} and {{ wage_high }}. 
+            Please enter a wage offer above {{ wage_low }}. 
         {% endif %}
     </p>
     <p>
-        {{ form.wage_offer }}
+        {{ form.offer }}
     </p>
     <p>
         {% next_button %}

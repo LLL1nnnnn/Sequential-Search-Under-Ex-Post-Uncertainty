@@ -13,29 +13,36 @@
     The total number of searches you made in this round is <b>{{player.number_of_search}}</b>. 
 </p>
 
-{% if certainty == True %}
+{% if control == True %}
     <p>
-        Your payoff from round {{player.round_number}} is <math> - {{player.number_of_search}} &times; 
-            {{ search_cost }} points + {{ value_high }} points &times; {{player.probability}} 
-            + {{ value_low }} points &times; (1 - {{player.probability}}) = </math> <b>{{player.payoff}}</b>. 
+        Your payoff from round {{ player.round_number }} is <math> - {{ player.number_of_search }} &times; 
+            {{ search_cost }} points + {{ player.control_value }} points = </math> <b>{{ player.payoff }}</b>. 
     </p>
 {% else %}
-    {% if player.probability >= player.threshold %}
+    {% if certainty == True %}
         <p>
-            The random outcome of the item you purchase is {{ value_high }} points. 
+            Your payoff from round {{player.round_number}} is <math> - {{ player.number_of_search }} &times; 
+                {{ search_cost }} points + {{ value_high }} points &times; {{ player.probability }} 
+                + {{ value_low }} points &times; (1 - {{ player.probability }}) = </math> <b>{{ player.payoff }}</b>. 
         </p>
-        <p>
-            Your payoff from round {{player.round_number}} is <math> - {{player.number_of_search}} &times; 
-                {{ search_cost }} points + {{ value_high }} points = </math> <b>{{player.payoff}}</b>. 
-        </p>
-    {% else %}
-        <p>
-            The random outcome of the item you purchase is {{ value_low }}. 
-        </p>
-        <p>
-            Your payoff from round {{player.round_number}} is <math> - {{player.number_of_search}} &times; 
-                {{ search_cost }} points + {{ value_low }} points = </math> <b>{{player.payoff}}</b>. 
-        </p>
+    {% else %} 
+        {% if player.probability >= player.threshold %}
+            <p>
+                The random outcome of the item you purchase is {{ value_high }} points. 
+            </p>
+            <p>
+                Your payoff from round {{ player.round_number }} is <math> - {{ player.number_of_search }} &times; 
+                    {{ search_cost }} points + {{ value_high }} points = </math> <b>{{ player.payoff }}</b>. 
+            </p>
+        {% else %}
+            <p>
+                The random outcome of the item you purchase is {{ value_low }} points. 
+            </p>
+            <p>
+                Your payoff from round {{ player.round_number }} is <math> - {{ player.number_of_search }} &times; 
+                    {{ search_cost }} points + {{ value_low }} points = </math> <b>{{ player.payoff }}</b>. 
+            </p>
+        {% endif %}
     {% endif %}
 {% endif %}
 

@@ -16,10 +16,10 @@ SESSION_CONFIGS = [
         lottery_b_hi = 500,
         lottery_b_lo = 100, 
     ),
-    dict(
-        name='demo', app_sequence=['demographics'],
-        num_demo_participants=1,
-    ),
+    # dict(
+    #     name='demo', app_sequence=['demographics'],
+    #     num_demo_participants=1,
+    # ),
     dict(
         name='search_experiment_1', app_sequence=['search','mpl','demographics'],
         num_demo_participants=1,
@@ -30,8 +30,9 @@ SESSION_CONFIGS = [
         lottery_a = 280, 
         lottery_b_hi = 500,
         lottery_b_lo = 100, 
-        certainty = True, 
+        certainty = False, 
         random = True,
+        control = True, 
     ),
     dict(
         name='search_experiment_2', app_sequence=['search','mpl','demographics'],
@@ -43,11 +44,26 @@ SESSION_CONFIGS = [
         lottery_a = 280, 
         lottery_b_hi = 500,
         lottery_b_lo = 100, 
-        certainty = False, 
+        certainty = True, 
         random = True,
+        control = False, 
     ),
     dict(
         name='search_experiment_3', app_sequence=['search','mpl','demographics'],
+        num_demo_participants=1,
+        # config_file = "search_pilot.csv",
+        value_high = 500,
+        value_low = 100,
+        search_cost = 5,
+        lottery_a = 280, 
+        lottery_b_hi = 500,
+        lottery_b_lo = 100, 
+        certainty = False, 
+        random = True,
+        control = False, 
+    ),
+    dict(
+        name='search_experiment_4', app_sequence=['search','mpl','demographics'],
         num_demo_participants=1,
         # config_file = "search_pilot.csv",
         value_high = 200,
@@ -84,7 +100,7 @@ SESSION_CONFIGS = [
     # ),
     dict(
         name='min_wage_real_effort',
-        app_sequence=['encoding_simple', 'min_wage_real_effort'],
+        app_sequence=['encoding_simple', 'min_wage_real_effort', 'survey_mwre'],
         num_demo_participants=2,
     )
 ]

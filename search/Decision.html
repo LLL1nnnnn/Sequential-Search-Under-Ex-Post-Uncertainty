@@ -13,7 +13,11 @@
     This is <b>round {{player.round_number}}</b>. 
 </p>
 <p>
-    The two possible outcomes for each item are: {{ value_high }} points and {{ value_low }} points. 
+    {% if control == False %}
+        The two possible outcomes for each item are: {{ value_high }} points and {{ value_low }} points. 
+    {% else %}
+        The outcome for each item is an integer between {{ value_low }} points and {{ value_high }} points (inclusive).
+    {% endif %}
 </p>
 <p>
     The constant search cost is {{ search_cost }} points. 
@@ -23,19 +27,54 @@
     You can search for the next item by clicking on <b>Search</b> button. 
 </p>
 
+<p>
+    {% if control == True %}
+        Suppose you have searched <b><math>n</math></b> times in this round, and the item you choose to purchase has 
+        the outcome of getting <b>X</b> points, then your payoff in this round is 
+        <math><b> - n &times; {{ search_cost }} points + X points</b></math>. 
+    {% else %}
+        {% if certainty == True %}
+            Suppose you have searched <b><math>n</math></b> times in this round, and the item you choose to purchase has 
+            the probability of getting {{ value_high }} points as <math><b>p</b></math>, then your payoff in this round is 
+            <math><b> - n &times; {{ search_cost }} points + {{ value_high }} points &times; p 
+                + {{ value_low }} points &times; (1 - p)</b></math>. 
+        {% else %}
+            Suppose that you have searched <math>n</math> times in this round, then your payoff in this round is either 
+            <math><b>- n &times; {{ search_cost }} points + {{ value_high }} points </b></math> 
+            or <math><b>- n &times; {{ search_cost }} points + {{ value_low }} points </b></math>. 
+        {% endif %}
+    {% endif %}
+</p>
 
-<div class="wrapper">
-<div class="card">
-<table id='history' class='table'>
-    <thead>
-        <tr class="header">
-            <th class="search_no"> Search No. </th>
-            <th class="probability"> Probability of Getting {{ value_high }} points</th>
-            <th class="probability"> Probability of Getting {{ value_low }} points</th>
-        </tr>
-    </thead>
-</table>
-</div>
+{% if control == False %}
+    <div class="wrapper">
+    <div class="card">
+    <table id='history' class='table'>
+        <thead>
+            <tr class="header">
+                <th class="search_no"> Search No. </th>
+                <th class="probability"> Probability of Getting {{ value_high }} points</th>
+                <th class="probability"> Probability of Getting {{ value_low }} points</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    </div>
+{% else %}
+    <div class="wrapper">
+    <div class="card">
+    <table id='history' class='table'>
+        <thead>
+            <tr class="header">
+                <th class="search_no"> Search No. </th>
+                <th class="probability"> Points You Will Get </th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    </div>
+{% endif %}
+
 <p></p>
 <button type='button' id='searchbutton'>Search</button>
 <p></p>
@@ -63,9 +102,14 @@
         if (data.type === 'game_finished') {
             document.getElementById("form").submit();
         }
-        tmp = 1 - data.probability; 
-        q = tmp.toPrecision(2); 
-        history.innerHTML += '<table><tbody><tr><td class="search_no">' + i + '</td>' + '<td class="probability">' + data.probability + '</td>' + '<td class="probability">' + q + '</td></tr></tbody></table>';
+        // history.innerHTML += '<table><tbody><tr><td class="search_no">' + i + '</td>' + '<td class="probability">' + data.value + '</td></tr></tbody></table>';
+        if (data.control === 'False') {
+            tmp = 1 - data.probability; 
+            q = tmp.toPrecision(2); 
+            history.innerHTML += '<table><tbody><tr><td class="search_no">' + i + '</td>' + '<td class="probability">' + data.probability + '</td>' + '<td class="probability">' + q + '</td></tr></tbody></table>';
+        } else {
+            history.innerHTML += '<table><tbody><tr><td class="search_no">' + i + '</td>' + '<td class="probability">' + data.value + '</td></tr></tbody></table>';
+        }
         i += 1
     }
 

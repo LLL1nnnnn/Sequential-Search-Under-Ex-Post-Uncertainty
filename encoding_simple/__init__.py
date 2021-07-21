@@ -27,6 +27,9 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    correct_entry = models.IntegerField()
+    entry = models.IntegerField()
+
     letter_1 = models.StringField()
     letter_2 = models.StringField()
     letter_3 = models.StringField()
@@ -244,11 +247,32 @@ class Task(Page):
 #             'payoff': player.payoff
         # }
 
+# class Results(Page):
+#     def is_displayed(self):
+#         return self.round_number == Constants.num_rounds
+
+
+
 class FinalResults(Page):
     def is_displayed(self):
         return self.round_number == Constants.num_rounds
 
-
-
+    @staticmethod
+    def vars_for_template(player: Player):
+        player.entry = 0
+        player.correct_entry = 0
+        for i in range(1, 16): 
+            entry = 'num_entered_' + str(i)
+            correct = 'correct_num_' + str(i)
+            if getattr(player, entry):
+                player.entry += 1
+            if getattr(player, entry) == getattr(player, correct): 
+                player.correct_entry += 1
+            else:
+                player.correct_entry += 0
+        return {
+            'entry': player.entry, 
+            'correct_entry': player.correct_entry, 
+        }
 
 page_sequence = [Cover, Introduction, Task, FinalResults]

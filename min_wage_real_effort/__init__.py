@@ -5,24 +5,24 @@ c = Currency
 import random 
 
 
+author = 'Yilin Li'
+
 doc = """
-Real Effort Task of Encoding Letters
+Minimum Wage and Real Effort Task of Encoding Letters
 """
 
 
 class Constants(BaseConstants):
     name_in_url = 'min_wage_real_effort'
-    # players_per_group = None
-    num_rounds = 15
+    num_rounds = 2
     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    point_per_correct_combo = 10
-    players_per_group = 2
+    point_per_correct_letter = c(30)
+    players_per_group = 20
     wage_high = c(100)
-    wage_low = c(10)
-    policy = True
-    min_wage = c(70) 
+    wage_low = c(0)
+    min_wage = c(220) 
+    base_revenue = c(100)
     instructions_template = 'min_wage_real_effort/instructions.html'
-
 
 
 class Subsession(BaseSubsession):
@@ -30,19 +30,41 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    wage_offer = models.CurrencyField(
-        min=Constants.wage_low,
-        max=Constants.wage_high,
+    policy = models.BooleanField()
+
+    offer = models.CurrencyField(
+        # min=Constants.wage_low,
+        # max=Constants.wage_high,
         doc="""Wage offered by employer""",
         label="Please enter a wage offer.",
     )
 
-    reservation_wage = models.CurrencyField(
-        min=Constants.wage_low,
-        max=Constants.wage_high,
+    # def offer_error_message(group, value):
+    #     print('value is', value)
+    #     if group.policy == True and value < Constants.min_wage:
+    #         return 'Cannot offer less than the minimum wage'
+    #     elif group.policy == False and value < Constants.wage_low:
+    #         return 'Cannot offer less than zero' 
+
+
+    # def offer_min(group):
+    #     if group.policy == True: 
+    #         return Constants.min_wage
+    #     else:
+    #         return Constants.wage_low
+
+    reservation = models.CurrencyField(
+        # min=Constants.wage_low,
+        # max=Constants.wage_high,
         doc="""Reservation wage of employee""",
-        label="Please enter an amount (between 0 and 100) that you are willing to accept the job.",
+        label="Please enter an amount that you are willing to accept the job.",
     )
+
+    # def reservation_min(group):
+    #     if group.policy == True: 
+    #         return Constants.min_wage
+    #     else:
+    #         return Constants.wage_low
 
     decision = models.StringField()
 
@@ -148,16 +170,7 @@ class Player(BasePlayer):
         label="Code for letter 15",
     )
 
-    # def set_payoffs(self): 
-    #     for i in range(1, 16): 
-    #         entry = 'num_entered_' + str(i)
-    #         correct = 'correct_num_' + str(i)
-    #         if getattr(self, entry) == getattr(self, correct): 
-    #             self.payoff += Constants.point_per_correct_combo
-    #             # self.participant.encoding_payoff += self.payoff
-    #         else:
-    #             self.payoff += 0
-    #             # self.participant.encoding_payoff += self.payoff
+
 
 # FUNCTIONS
 def set_payoffs(group: Group):
@@ -175,8 +188,8 @@ def set_payoffs(group: Group):
         else:
             group.correct_entry += 0
     if group.decision == 'Accept': 
-        employer.payoff = Constants.wage_high * (group.correct_entry / group.entry)**0.5 - group.wage_offer
-        employee.payoff = group.wage_offer * group.correct_entry / group.entry
+        employer.payoff = Constants.base_revenue + Constants.point_per_correct_letter * group.correct_entry - group.offer
+        employee.payoff = group.offer 
     else: 
         employer.payoff = 0
         employer.payoff = 0
@@ -192,31 +205,64 @@ class Introduction_Wage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        if player.round_number <= 10: 
+            player.group.policy = True
+        else: 
+            player.group.policy = False 
+
         return {
             'wage_low': Constants.wage_low, 
             'wage_high': Constants.wage_high, 
-            'policy': Constants.policy,
+            'policy': player.group.policy, 
             'min_wage': Constants.min_wage, 
+            'point_per_correct_letter': Constants.point_per_correct_letter,
+            'base_revenue': Constants.base_revenue, 
         }
+
+
+class Transition(Page):
+
+    def is_displayed(self):
+        return self.round_number == int(Constants.num_rounds / 2 + 1)
+
+
 
 class Offer(Page):
     """This page is only for employer
     employer sends wage offer to employee"""
 
     form_model = 'group'
-    form_fields = ['wage_offer']
+    form_fields = ['offer']
 
     @staticmethod
     def is_displayed(player: Player):
         return player.id_in_group == 1
 
     @staticmethod
+    def error_message(player, values):
+        print('values is', values)
+        # if values['offer'] > Constants.wage_high:
+        #     return 'Please enter a wage offer between 0 points and 100 points' 
+        if player.group.policy == True and values['offer'] < Constants.min_wage: 
+            return 'Cannot offer less than the minimum wage'
+        if player.group.policy == False and values['offer'] < Constants.wage_low: 
+            return 'Cannot offer less than zero'
+        
+
+    @staticmethod
     def vars_for_template(player: Player):
+        if player.round_number <= 10: 
+            player.group.policy = True
+        else: 
+            player.group.policy = False 
+
         return {
             'wage_low': Constants.wage_low, 
             'wage_high': Constants.wage_high, 
-            'policy': Constants.policy,
+            'policy': player.group.policy, 
             'min_wage': Constants.min_wage, 
+            'point_per_correct_letter': Constants.point_per_correct_letter,
+            'base_revenue': Constants.base_revenue, 
         }
 
 class Reservation(Page):
@@ -224,19 +270,37 @@ class Reservation(Page):
     employee sets reservation wage"""
 
     form_model = 'group'
-    form_fields = ['reservation_wage']
+    form_fields = ['reservation']
 
     @staticmethod
     def is_displayed(player: Player):
         return player.id_in_group == 2
     
     @staticmethod
+    def error_message(player, values):
+        print('values is', values)
+        # if values['reservation'] > Constants.wage_high:
+        #     return 'Cannot set above 100' 
+        # if player.group.policy == True and values['reservation'] < Constants.min_wage: 
+        #     return 'Cannot set below the minimum wage'
+        if values['reservation'] < Constants.wage_low: 
+            return 'Cannot set below zero'
+        
+    
+    @staticmethod
     def vars_for_template(player: Player):
+        if player.round_number <= 10: 
+            player.group.policy = True
+        else: 
+            player.group.policy = False 
+
         return {
             'wage_low': Constants.wage_low, 
             'wage_high': Constants.wage_high, 
-            'policy': Constants.policy,
+            'policy': player.group.policy, 
             'min_wage': Constants.min_wage, 
+            'point_per_correct_letter': Constants.point_per_correct_letter,
+            'base_revenue': Constants.base_revenue, 
         }
 
 class DecisionWaitPage(WaitPage):
@@ -249,7 +313,7 @@ class Results_Wage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
-        if group.wage_offer >= group.reservation_wage:
+        if group.offer >= group.reservation:
             group.decision = 'Accept'
             player.participant.match = True
         else: 
@@ -258,10 +322,12 @@ class Results_Wage(Page):
         return {
             'wage_low': Constants.wage_low, 
             'wage_high': Constants.wage_high, 
-            'policy': Constants.policy,
+            'policy': player.group.policy,
             'min_wage': Constants.min_wage, 
             'decision': group.decision,
             'match': player.participant.match, 
+            'point_per_correct_letter': Constants.point_per_correct_letter, 
+            'base_revenue': Constants.base_revenue, 
         }
 
 class Introduction(Page):
@@ -363,26 +429,38 @@ class Task(Page):
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = 'set_payoffs'
 
-class FinalResults(Page):
+class Results(Page):
     # def is_displayed(self):
     #     return self.round_number == Constants.num_rounds
 
     @staticmethod
     def vars_for_template(player: Player):
-        group = player.group 
+        # group = player.group 
         return{
             'payoff': player.payoff
         }
 
 
+class FinalResults(Page):
+    def is_displayed(self):
+        return self.round_number == Constants.num_rounds
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        # group = player.group 
+        return{
+            'payoff': player.participant.payoff
+        }
 
 # page_sequence = [Introduction, Task, Results]
 
 page_sequence = [Introduction_Wage,
+    Transition,
     Offer,
     Reservation, 
     DecisionWaitPage,
     Results_Wage,
     Task, 
     ResultsWaitPage, 
+    Results,
     FinalResults]

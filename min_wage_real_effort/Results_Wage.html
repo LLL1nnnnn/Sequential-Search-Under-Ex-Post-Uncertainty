@@ -1,11 +1,14 @@
 {% extends "global/Page.html" %}
 
-{% block title %}Results{% endblock %}
+{% block title %}
+    Matching Results
+{% endblock %}
+
 {% block content %}
 
     {% if player.id_in_group == 1 %}
         <p>
-            You chose to offer the worker a wage of {{ group.wage_offer }}.
+            You chose to offer the worker a wage of {{ group.offer }}.
         </p>
         <p>
             {% if decision == "Accept" %}
@@ -16,10 +19,10 @@
         </p>
     {% else %}
         <p>
-            Employer offered you a wage of {{ group.wage_offer }}.
+            Employer offered you a wage of {{ group.offer }}.
         </p>
         <p>
-            Your reservation wage is {{ group.reservation_wage }}.
+            Your minimal acceptable wage is {{ group.reservation }}.
         </p>
         <p>
             {% if decision == "Accept" %}
@@ -27,7 +30,7 @@
                     You chose to accept it. 
                 </p>
                 <p>
-                    You are now hired to the word encoding task. 
+                    You are now hired to do the word encoding task. 
                 </p>
             {% else %}
                 You chose to reject it.

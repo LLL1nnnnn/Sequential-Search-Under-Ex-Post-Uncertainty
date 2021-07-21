@@ -13,6 +13,11 @@
     <p>
         This is round <b>{{ player.round_number }}</b>. 
     </p>
+    {% if player.id_in_group == 2 && group.decision == "Accept" %}
+    <p>
+        After completing this task, you will be paid {{ group.offer }}. 
+    </p>
+    {% endif %}
 
     <table class="table">
         <tr>
@@ -101,6 +106,6 @@
     </table>
     </p>
 
-    {% next_button %}
+    <!-- {% next_button %} -->
 
 {% endblock %}

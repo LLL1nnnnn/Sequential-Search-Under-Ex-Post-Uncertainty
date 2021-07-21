@@ -1,16 +1,25 @@
 {% extends "global/Page.html" %}
 
-{% block title %}Reservation Wage{% endblock %}
+{% block title %}Minimal Acceptable Wage{% endblock %}
 {% block content %}
 
     <p>
         You are <b>Worker</b>.  
     </p> 
     <p>
-        What is your reservation wage (the minimal wage for you to accept the offer)? 
+        What is your minimal acceptable wage to accept the offer? 
+    </p>
+    <p>
+        {% if policy == True %}
+            Please enter your minimal acceptable wage above {{ wage_low }}. 
+        {% else %}
+            Please enter your minimal acceptable wage above {{ wage_low }}. 
+        {% endif %}
     </p>
 
-    {% formfields %}
+    <p>
+        {{ form.reservation }}
+    </p>
     <p>
     {% next_button %}
     </p>

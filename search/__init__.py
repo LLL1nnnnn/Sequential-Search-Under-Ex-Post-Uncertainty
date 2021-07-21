@@ -20,23 +20,6 @@ class Constants(BaseConstants):
     # certainty = True
     # random = True
 
-# def parse_config(config_file):
-#     with open('certainty/configs/' + config_file) as f:
-#         rows = list(csv.DictReader(f))
-
-#     rounds = []
-#     for row in rows:
-#         rounds.append({
-#             'endowment': int(row['endowment']),
-#             'value_high': int(row['value_high']),
-#             'value_low': int(row['value_low']),
-#             'search_cost': int(row['search_cost']),
-#             'certainty': True if row['certainty'] == 'TRUE' else False,
-#             'random': True if row['random'] == 'TRUE' else False,
-#         })
-#     print(round)
-#     return rounds
-
 
 class Subsession(BaseSubsession):
     pass
@@ -65,6 +48,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     number_of_search = models.IntegerField()
     probability = models.FloatField()
+    control_value = models.IntegerField()
     total_cost = models.IntegerField() 
     threshold = models.FloatField()
     paying_round = models.IntegerField()
@@ -78,17 +62,22 @@ class Player(BasePlayer):
 
 # FUNCTIONS
     def compute_player_payoff(self):
-        if self.session.config['certainty']:
+        if self.session.config['control']:
             self.payoff = self.probability * self.session.config['value_high'] + \
                 (1 - self.probability) * self.session.config['value_low'] - \
                 self.number_of_search * self.session.config['search_cost']
         else:
-            if self.probability >= self.threshold: 
-                self.payoff = self.session.config['value_high'] - \
-                self.number_of_search * self.session.config['search_cost']
-            else: 
-                self.payoff = self.session.config['value_low'] - \
-                self.number_of_search * self.session.config['search_cost']
+            if self.session.config['certainty']:
+                self.payoff = self.probability * self.session.config['value_high'] + \
+                    (1 - self.probability) * self.session.config['value_low'] - \
+                    self.number_of_search * self.session.config['search_cost']
+            else:
+                if self.probability >= self.threshold: 
+                    self.payoff = self.session.config['value_high'] - \
+                    self.number_of_search * self.session.config['search_cost']
+                else: 
+                    self.payoff = self.session.config['value_low'] - \
+                    self.number_of_search * self.session.config['search_cost']
 
 
 # def compute_player_payoff(player: Player):
@@ -122,11 +111,13 @@ class Instruction(Page):
             'value_high': player.session.config['value_high'],
             'value_low': player.session.config['value_low'],
             'search_cost': player.session.config['search_cost'],
-            'certainty': player.session.config['certainty']
+            'certainty': player.session.config['certainty'],
+            'control': player.session.config['control'],
         }
 
 class Decision(Page):
     probabilities = {}
+    control_values = {}
 
     @staticmethod
     def live_method(player: Player, data=None):
@@ -138,19 +129,34 @@ class Decision(Page):
             probabilities = Decision.probabilities[my_id]
             probabilities.append(p)
 
-            response = {
-                'probability': p
-            }
+            value = player.session.config['value_high'] * p + player.session.config['value_low'] * (1 - p)
+            if my_id not in Decision.control_values:
+                Decision.control_values[my_id] = []
+            control_values = Decision.control_values[my_id]
+            control_values.append(value)
+
+            if player.session.config['control']: 
+                response = {
+                    'value': int(value),
+                    'control': 'True', 
+                }
+            else: 
+                response = {
+                    'probability': p,
+                    'control': 'False', 
+                }
             player.number_of_search = len(probabilities)
             player.total_cost = player.number_of_search * player.session.config['search_cost']
             return {my_id: response}
         elif data['type'] == 'purchase':
             probabilities = Decision.probabilities[my_id]
-            # print(probabilities)
+            control_values = Decision.control_values[my_id]
+
             if data['i'] <= 0:
                 raise ValueError('index <= 0') 
             player.probability = Decision.probabilities[my_id][data['i'] - 1]
             player.threshold = random.uniform(0, 1) 
+            player.control_value = int(Decision.control_values[my_id][data['i'] - 1])
             player.compute_player_payoff()
 
             # specify paying round 
@@ -160,6 +166,7 @@ class Decision(Page):
                 player.participant.vars['search_pay'] = player.final_pay
 
             Decision.probabilities[my_id] = []
+            Decision.control_values[my_id] = []
             
             response = {
                 'type': 'game_finished'
@@ -183,7 +190,8 @@ class Decision(Page):
             'value_high': player.session.config['value_high'],
             'value_low': player.session.config['value_low'],
             'search_cost': player.session.config['search_cost'],
-            'certainty': player.session.config['certainty']
+            'certainty': player.session.config['certainty'],
+            'control': player.session.config['control'],
         }
 
 
@@ -196,6 +204,7 @@ class Results(Page):
         var['value_low'] = player.session.config['value_low']
         var['search_cost'] = player.session.config['search_cost']
         var['certainty']= player.session.config['certainty']
+        var['control'] = player.session.config['control']
         return var
     
     # @staticmethod

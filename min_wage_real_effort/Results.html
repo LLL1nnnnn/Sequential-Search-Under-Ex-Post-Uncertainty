@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Task Results
+{% endblock %}
+
+{% block content %}
+    {% if player.id_in_group == 1 %}
+        The Worker you hired made {{ group.correct_entry }} correct entries. 
+    {% else %}
+        You made {{ group.correct_entry }} correct entries. 
+    {% endif %}
+    <p>
+        Your payoff from round {{ player.round_number }} is {{ payoff }}. 
+    </p>
+    
+    {% next_button %}
+{% endblock %}
+
+
