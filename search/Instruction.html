@@ -27,13 +27,11 @@
 
 {% if control == True %}
     <p>
-        The outcome of each item is an integer between <b>{{ value_low }} points</b> and <b>{{ value_high }} points</b> (inclusive). 
+        The outcome of each item is an integer between <b>{{ value_low }} points</b> and <b>{{ value_high }} points</b> (inclusive, the outcomes are chosen with equal possibilities). 
         
         The items differ in the outcome (i.e. the points you will get).
 
         After each search, you will know the outcome of the item you just searched. 
-
-        The outcomes come with equal possibilities. 
     </p>
 
     <p>
@@ -63,6 +61,8 @@
             The outcome of each item is 
             <b><math>{{ value_high }} points &times; p + {{ value_low }} points &times; (1 - p)</math></b>, 
             where <math><b>p</b></math> is the probability of getting {{ value_high }} points. 
+            The probability <math><b>p</b></math> is a randomly chosen decimal between 0 and 1 (inclusive) 
+            and all the decimals are equally likely to be chosen. 
 
             The items differ in probability of getting {{ value_high }} points. 
             Although p is defined as a probability, you will receive the outcome of the item (calculated above) you purchase for sure.
@@ -98,7 +98,9 @@
         <p>
             For each item, there are two possible outcomes: <b>{{ value_high }}</b> points and <b>{{ value_low }}</b> points. 
             The items differ in probability of getting {{ value_high }} points, which is defined as <math><b>p</b></math>. 
-
+            The probability <math><b>p</b></math> is a randomly chosen decimal between 0 and 1 (inclusive) 
+            and all the decimals are equally likely to be chosen. 
+            
             After each search, you will know the <math><b>p</b></math> of the item you just searched. 
         </p>
 
