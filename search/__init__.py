@@ -15,12 +15,6 @@ class Constants(BaseConstants):
     players_per_group = None
     num_rounds = 25
     prac_rounds = 5
-    # endowment = 100
-    # search_cost = 5
-    # value_high = 500
-    # value_low = 100
-    # certainty = True
-    # random = True
 
 
 class Subsession(BaseSubsession):
@@ -28,11 +22,7 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession: Subsession):
-    # config = self.config
-    # if not config:
-    #     return
-    # print("creating session")
-    n = 100
+    n = 500
     for p in subsession.get_players():
         indices = [j for j in range(1, n + 1)]
         form_fields = ['prob_' + str(k) for k in indices]
@@ -68,7 +58,7 @@ class Player(BasePlayer):
 
     
     # no dynamic creating fields 
-    for i in range(1, 51): 
+    for i in range(1, 501): 
         locals()['prob_' + str(i)] = models.FloatField()
     del i 
 
@@ -301,6 +291,18 @@ class Results(Page):
                     player.final_pay = player.in_round(player.paying_round).payoff
                     player.participant.vars['search_pay'] = player.final_pay
 
+                form_fields = [list(t) 
+                    for t in zip(*player.participant.vars['probabilities'])][1]
+                indices = [list(t)
+                    for t in zip(*player.participant.vars['probabilities'])][0]
+                # print(probabilities)
+                # if choices are displayed in tabular format
+                for j, choice in zip(indices, form_fields):
+                    if j <= player.number_of_search:
+                        setattr(player, choice, list(display[j].keys())[0])
+                    else: 
+                        setattr(player, choice, 0)
+                        
                 return {
                     'value_high': player.session.config['value_high'],
                     'value_low': player.session.config['value_low'],
@@ -328,6 +330,18 @@ class Results(Page):
                         player.paying_round = random.randint(Constants.prac_rounds + 1, Constants.num_rounds)
                         player.final_pay = player.in_round(player.paying_round).payoff
                         player.participant.vars['search_pay'] = player.final_pay
+                    
+                    form_fields = [list(t) 
+                        for t in zip(*player.participant.vars['probabilities'])][1]
+                    indices = [list(t) 
+                        for t in zip(*player.participant.vars['probabilities'])][0]
+                    # print(probabilities)
+                    # if choices are displayed in tabular format
+                    for j, choice in zip(indices, form_fields):
+                        if j <= player.number_of_search:
+                            setattr(player, choice, list(display[j].keys())[0])
+                        else: 
+                            setattr(player, choice, 0)
 
                     return {
                         'value_high': player.session.config['value_high'],
