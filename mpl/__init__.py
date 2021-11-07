@@ -1,10 +1,8 @@
 from otree.api import *
-# from .config import *
 from ._builtin import Page, WaitPage
 import random
 from random import randrange
 from otree.models import subsession, session
-# from .models import parse_config
 
 doc = """
 Multiple price list task as proposed by Holt/Laury (2002), American Economic Review 92(5).
@@ -12,25 +10,10 @@ Multiple price list task as proposed by Holt/Laury (2002), American Economic Rev
 
 
 class Constants(BaseConstants):
-    # lottery_a = 50
-    # lottery_b_hi = 100
-    # lottery_b_lo = 10
     num_choices = 10
     num_rounds = 1
     name_in_url = 'mpl'
     players_per_group = None
-
-# def parse_config(config_file):
-#     with open("mpl/configs/" + config_file) as f:
-#         rows = list(csv.DictReader(f))
-#     rounds = []
-#     for row in rows:
-#         rounds.append({
-#             'lottery_a': int(row['lottery_a']),
-#             'lottery_b_hi': int(row['lottery_b_hi']),
-#             'lottery_b_lo': int(row['lottery_b_lo']),
-#         })
-#     return rounds
 
 
 class Subsession(BaseSubsession):
@@ -70,7 +53,7 @@ class Player(BasePlayer):
         locals()['choice_' + str(j)] = models.StringField()
     del j
     random_draw = models.IntegerField()
-    total_pay = models.CurrencyField()
+    # total_pay = models.CurrencyField()
     choice_to_pay = models.StringField()
     option_to_pay = models.StringField()
 
@@ -168,17 +151,19 @@ class Results(Page):
         }
 
 
-class FinalResults(Page):
-    def is_displayed(self):
-        return self.subsession.round_number == Constants.num_rounds
+# class FinalResults(Page):
+#     def is_displayed(self):
+#         return self.subsession.round_number == Constants.num_rounds
 
-    @staticmethod
-    def vars_for_template(player: Player):
-        player.total_pay = player.payoff + player.participant.vars['search_pay']
-        return {
-            'search_pay': player.participant.vars['search_pay'], 
-            'total_pay': player.total_pay, 
-        }
+#     @staticmethod
+#     def vars_for_template(player: Player):
+#         player.total_pay = player.participant.vars['search_pay'] + player.participant.vars['bret_payoff'] + player.participant.vars['mpl_payoff']
+#         return {
+#             'search_pay': player.participant.vars['search_pay'], 
+#             'bomb_pay': player.participant.vars['bret_payoff'], 
+#             'mpl_pay': player.participant.vars['mpl_payoff'], 
+#             'total_pay': player.total_pay, 
+#         }
 
 
-page_sequence = [Instructions, Decision, Results, FinalResults]
+page_sequence = [Instructions, Decision, Results]

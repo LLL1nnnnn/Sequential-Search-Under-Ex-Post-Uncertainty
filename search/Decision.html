@@ -31,17 +31,16 @@
     {% if control == True %}
         Suppose you have searched <b><math>n</math></b> times in this round, and the item you choose to purchase has 
         the outcome of getting <b>X</b> points, then your payoff in this round is 
-        <math><b> - n &times; {{ search_cost }} points + X points</b></math>. 
+        <math><b> X points - n &times; {{ search_cost }} points </b></math>. 
     {% else %}
         {% if certainty == True %}
             Suppose you have searched <b><math>n</math></b> times in this round, and the item you choose to purchase has 
             the probability of getting {{ value_high }} points as <math><b>p</b></math>, then your payoff in this round is 
-            <math><b> - n &times; {{ search_cost }} points + {{ value_high }} points &times; p 
-                + {{ value_low }} points &times; (1 - p)</b></math>. 
+            <math><b> {{ value_high }} points &times; p + {{ value_low }} points &times; (1 - p) - n &times; {{ search_cost }} points </b></math>. 
         {% else %}
             Suppose that you have searched <math>n</math> times in this round, then your payoff in this round is either 
-            <math><b>- n &times; {{ search_cost }} points + {{ value_high }} points </b></math> 
-            OR <math><b>- n &times; {{ search_cost }} points + {{ value_low }} points </b></math>. 
+            <math><b> {{ value_high }} points - n &times; {{ search_cost }} points </b></math> 
+            OR <math><b> {{ value_low }} points - n &times; {{ search_cost }} points </b></math>. 
         {% endif %}
     {% endif %}
 </p>

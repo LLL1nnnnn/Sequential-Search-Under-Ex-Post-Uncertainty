@@ -1,5 +1,6 @@
 import random
 import numpy as np 
+from collections import ChainMap
 from otree.api import *
 from otree.models import subsession
 import csv
@@ -12,7 +13,8 @@ Sequential search task
 class Constants(BaseConstants):
     name_in_url = 'search'
     players_per_group = None
-    num_rounds = 20
+    num_rounds = 25
+    prac_rounds = 5
     # endowment = 100
     # search_cost = 5
     # value_high = 500
@@ -30,7 +32,7 @@ def creating_session(subsession: Subsession):
     # if not config:
     #     return
     # print("creating session")
-    n = 50
+    n = 100
     for p in subsession.get_players():
         indices = [j for j in range(1, n + 1)]
         form_fields = ['prob_' + str(k) for k in indices]
@@ -47,10 +49,20 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     number_of_search = models.IntegerField()
-    probability = models.FloatField()
-    control_value = models.IntegerField()
+    probability = models.FloatField() # player's chosen prob
+    res_prob = models.FloatField(
+        min = 0,
+        max = 1,
+        label = 'Please enter a probability at least as high as which you would like to purchase an item with.'
+    )
+    res_value = models.IntegerField(
+        min = 0,
+        max = 500,
+        label = 'Please enter a value at least as high as which you would like to purchase an item with.'
+    )
+    control_value = models.IntegerField() # expected value of item 
     total_cost = models.IntegerField() 
-    threshold = models.FloatField()
+    threshold = models.FloatField() # threshold above which to have high value 
     paying_round = models.IntegerField()
     final_pay = models.CurrencyField()
 
@@ -96,12 +108,10 @@ class Player(BasePlayer):
 # PAGES
 
 class Cover(Page):
-    # print('cover')
     def is_displayed(self):
         return self.round_number == 1
 
 class Instruction(Page):
-    # print('instruction')
     def is_displayed(self):
         return self.round_number == 1
 
@@ -113,11 +123,67 @@ class Instruction(Page):
             'search_cost': player.session.config['search_cost'],
             'certainty': player.session.config['certainty'],
             'control': player.session.config['control'],
+            'automatic': player.session.config['automatic'], 
+        }
+
+class Reservation_v(Page):
+    form_model = 'player'
+    form_fields = ['res_value']
+
+    @staticmethod
+    def is_displayed(self):
+        return self.session.config['automatic'] == True and self.session.config['control'] == True
+    
+    @staticmethod
+    def error_message(player, values):
+        if values['res_value'] < 0: 
+            return 'Values should be non-negative.'
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'value_high': player.session.config['value_high'],
+            'value_low': player.session.config['value_low'],
+            'search_cost': player.session.config['search_cost'],
+            'certainty': player.session.config['certainty'],
+            'control': player.session.config['control'],
+            'automatic': player.session.config['automatic'], 
+        }
+
+class Reservation_p(Page):
+    form_model = 'player'
+    form_fields = ['res_prob']
+
+    @staticmethod
+    def is_displayed(self):
+        return self.session.config['automatic'] == True and self.session.config['certainty'] == False
+    
+    @staticmethod
+    def error_message(player, values):
+        if values['res_prob'] < 0: 
+            return 'Probabilities should be non-negative.'
+        if values['res_prob'] > 1: 
+            return 'Probabilities cannot exceed 1. '
+
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return {
+            'value_high': player.session.config['value_high'],
+            'value_low': player.session.config['value_low'],
+            'search_cost': player.session.config['search_cost'],
+            'certainty': player.session.config['certainty'],
+            'control': player.session.config['control'],
+            'automatic': player.session.config['automatic'], 
         }
 
 class Decision(Page):
     probabilities = {}
     control_values = {}
+
+    @staticmethod
+    def is_displayed(self):
+        return self.session.config['automatic'] == False
 
     @staticmethod
     def live_method(player: Player, data=None):
@@ -161,7 +227,7 @@ class Decision(Page):
 
             # specify paying round 
             if player.round_number == Constants.num_rounds:
-                player.paying_round = random.randint(3, Constants.num_rounds)
+                player.paying_round = random.randint(Constants.prac_rounds + 1, Constants.num_rounds)
                 player.final_pay = player.in_round(player.paying_round).payoff
                 player.participant.vars['search_pay'] = player.final_pay
 
@@ -192,20 +258,90 @@ class Decision(Page):
             'search_cost': player.session.config['search_cost'],
             'certainty': player.session.config['certainty'],
             'control': player.session.config['control'],
+            'automatic': player.session.config['automatic'], 
         }
 
 
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        Decision.probabilities[player.id_in_group] = []
-        var = dict(player=player)
-        var['value_high'] = player.session.config['value_high']
-        var['value_low'] = player.session.config['value_low']
-        var['search_cost'] = player.session.config['search_cost']
-        var['certainty']= player.session.config['certainty']
-        var['control'] = player.session.config['control']
-        return var
+        if player.session.config['automatic'] == False: # sequential search 
+            Decision.probabilities[player.id_in_group] = []
+            var = dict(player=player)
+            var['value_high'] = player.session.config['value_high']
+            var['value_low'] = player.session.config['value_low']
+            var['search_cost'] = player.session.config['search_cost']
+            var['certainty']= player.session.config['certainty']
+            var['control'] = player.session.config['control']
+            var['automatic'] = player.session.config['automatic']
+            return var 
+        else:
+            display = {}
+            display_value = {}
+            ct = 0
+            p = 0
+            if player.session.config['control'] == True:  # automatic certainty
+                player.probability = -1
+                player.control_value = int(player.probability * player.session.config['value_high'] + (1 - player.probability) * player.session.config['value_low'])
+                while player.control_value < player.res_value:
+                    ct += 1
+                    p = round(np.random.uniform(0, 1), 2)
+                    display[ct] = {p: round(1 - p, 2)}
+                    player.probability = max(ChainMap(*display.values()).keys())
+                    player.control_value = int(player.probability * player.session.config['value_high'] + (1 - player.probability) * player.session.config['value_low'])
+                    display_value[ct] = int(p * player.session.config['value_high'] + (1 - p) * player.session.config['value_low'])
+                player.number_of_search = len(display)
+                player.total_cost = player.number_of_search * player.session.config['search_cost']
+                player.threshold = random.uniform(0, 1) 
+                player.compute_player_payoff()
+
+                # specify paying round 
+                if player.round_number == Constants.num_rounds:
+                    player.paying_round = random.randint(Constants.prac_rounds + 1, Constants.num_rounds)
+                    player.final_pay = player.in_round(player.paying_round).payoff
+                    player.participant.vars['search_pay'] = player.final_pay
+
+                return {
+                    'value_high': player.session.config['value_high'],
+                    'value_low': player.session.config['value_low'],
+                    'search_cost': player.session.config['search_cost'],
+                    'certainty': player.session.config['certainty'],
+                    'control': player.session.config['control'],
+                    'automatic': player.session.config['automatic'], 
+                    'display': display_value, 
+                    }
+            else: # automatic uncertainty 
+                if player.session.config['certainty'] == False: 
+                    player.probability = -1
+                    while player.probability < player.res_prob:
+                        ct += 1
+                        p = round(np.random.uniform(0, 1), 2)
+                        display[ct] = {p: round(1 - p, 2)}
+                        player.probability = max(ChainMap(*display.values()).keys())
+                    player.number_of_search = len(display)
+                    player.total_cost = player.number_of_search * player.session.config['search_cost']
+                    player.threshold = random.uniform(0, 1) 
+                    player.compute_player_payoff()
+
+                    # specify paying round 
+                    if player.round_number == Constants.num_rounds:
+                        player.paying_round = random.randint(Constants.prac_rounds + 1, Constants.num_rounds)
+                        player.final_pay = player.in_round(player.paying_round).payoff
+                        player.participant.vars['search_pay'] = player.final_pay
+
+                    return {
+                        'value_high': player.session.config['value_high'],
+                        'value_low': player.session.config['value_low'],
+                        'search_cost': player.session.config['search_cost'],
+                        'certainty': player.session.config['certainty'],
+                        'control': player.session.config['control'],
+                        'automatic': player.session.config['automatic'], 
+                        'display': display, 
+                    }
+                    
+
+
+
     
     # @staticmethod
     # def vars_for_template(player: Player):
@@ -230,4 +366,4 @@ class FinalResults(Page):
 
 
 
-page_sequence = [Cover, Instruction, Decision, Results, FinalResults]
+page_sequence = [Cover, Instruction, Reservation_v, Reservation_p, Decision, Results, FinalResults]
