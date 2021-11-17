@@ -78,8 +78,16 @@ class Player(BasePlayer):
 
 
 class Instructions(Page):
+    form_model = 'player'
+    
     def is_displayed(self):
         return self.subsession.round_number == 1
+
+    @staticmethod
+    def get_form_fields(player: Player):
+        form_fields = [list(t) for t in zip(
+            *player.participant.vars['mpl_choices'])][1]
+        return form_fields
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -87,6 +95,7 @@ class Instructions(Page):
             'lottery_a': player.session.config['lottery_a'],
             'lottery_b_lo': player.session.config['lottery_b_lo'],
             'lottery_b_hi': player.session.config['lottery_b_hi'],
+            'choices': player.participant.vars['mpl_choices']
         }
 
 
@@ -114,15 +123,11 @@ class Decision(Page):
         # unzip indices and form fields from <mpl_choices> list
         form_fields = [list(t) for t in zip(
             *player.participant.vars['mpl_choices'])][1]
-        # print("here")
-        # print(player.participant.vars['mpl_choices'])
-        # print(*player.participant.vars['mpl_choices'])
+
         indices = [list(t)
                    for t in zip(*player.participant.vars['mpl_choices'])][0]
         # if choices are displayed in tabular format
         for j, choice in zip(indices, form_fields):
-            # print(j, choice)
-            # print(player.choice_1)
             choice_i = getattr(player, choice)
             player.participant.vars['mpl_choices_made'][j - 1] = choice_i
         player.set_payoffs()

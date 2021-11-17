@@ -18,6 +18,7 @@
         <table class="table table-striped">
             <thead>
                 <tr class="header">
+                    <th class="lottery-a">{% trans "Decision" %}</th>
                     <th class="formfield"></th>
                     <th class="lottery-a">{% trans "Option A" %}</th>
                     <th class="formfield"></th>
@@ -27,6 +28,10 @@
             <tbody>
                 {% for i,f,p,q in choices %}
                     <tr>
+                        <!-- index -->
+                        <td class="lottery-a">
+                            {{ i }}
+                        </td>
                         <!-- radio select form fields -->
                         <td class="formfield">
                             <input type="radio" name="{{ f }}" value="A" required>
@@ -37,7 +42,6 @@
                         </td>
                         <!-- radio select form fields -->
                         <td class="formfield">
-                            <!-- <input type="radio" name="{{ f }}" value="A" required> -->
                             <input type="radio" name="{{ f }}" value="B" required>
                         </td>
                         <!-- B lotteries -->

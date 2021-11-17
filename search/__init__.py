@@ -43,12 +43,10 @@ class Player(BasePlayer):
     res_prob = models.FloatField(
         min = 0,
         max = 1,
-        label = 'Please enter a probability at least as high as which you would like to purchase an item with.'
     )
     res_value = models.IntegerField(
         min = 0,
         max = 500,
-        label = 'Please enter a value at least as high as which you would like to purchase an item with.'
     )
     control_value = models.IntegerField() # expected value of item 
     total_cost = models.IntegerField() 
@@ -127,7 +125,9 @@ class Reservation_v(Page):
     @staticmethod
     def error_message(player, values):
         if values['res_value'] < 0: 
-            return 'Values should be non-negative.'
+            return 'Values should be non-negative. Please enter a positive integer. '
+        if values['res_value'] > 500: 
+            return 'Values should be exceed the maximum outcome. '
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -151,9 +151,9 @@ class Reservation_p(Page):
     @staticmethod
     def error_message(player, values):
         if values['res_prob'] < 0: 
-            return 'Probabilities should be non-negative.'
+            return 'Probabilities should be non-negative. Please enter a decimal in the form of 0.xx or .xx. '
         if values['res_prob'] > 1: 
-            return 'Probabilities cannot exceed 1. '
+            return 'Probabilities cannot exceed 1. Please enter a decimal in the form of 0.xx or .xx. '
 
 
     @staticmethod
