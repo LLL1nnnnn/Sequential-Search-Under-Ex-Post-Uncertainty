@@ -43,10 +43,12 @@ class Player(BasePlayer):
     res_prob = models.FloatField(
         min = 0,
         max = 1,
+        label = " ",
     )
     res_value = models.IntegerField(
         min = 0,
         max = 500,
+        label = " ", 
     )
     control_value = models.IntegerField() # expected value of item 
     total_cost = models.IntegerField() 

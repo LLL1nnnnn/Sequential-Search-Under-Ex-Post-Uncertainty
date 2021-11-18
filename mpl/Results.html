@@ -27,6 +27,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="header">
+                        <th class="lottery-a">{% trans "Decision" %}</th>
                         <th class="formfield"></th>
                         <th class="lottery-a">{% trans "Option A" %}</th>
                         <th class="formfield"></th>
@@ -36,6 +37,10 @@
                 <tbody>
                     {% for i,f,p,q in choice_to_pay %}
                         <tr>
+                            <!-- index -->
+                            <td class="lottery-a">
+                                {{ i }}
+                            </td>
                             <!-- radio select form fields -->
                             <td class="formfield">
                                 {% if option_to_pay == 'A' %} 
