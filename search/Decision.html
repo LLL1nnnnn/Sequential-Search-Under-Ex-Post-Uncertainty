@@ -38,9 +38,17 @@
             the probability of getting {{ value_high }} points as <math><b>p</b></math>, then your payoff in this round is 
             <math><b> {{ value_high }} points &times; p + {{ value_low }} points &times; (1 - p) - n &times; {{ search_cost }} points </b></math>. 
         {% else %}
-            Suppose that you have searched <math>n</math> times in this round, then your payoff in this round is either 
-            <math><b> {{ value_high }} points - n &times; {{ search_cost }} points </b></math> 
-            OR <math><b> {{ value_low }} points - n &times; {{ search_cost }} points </b></math>. 
+            Suppose that you have searched <math>n</math> times in this round, 
+            then your payoff in this round is either 
+            <ul>
+                <li>
+                    <math><b> {{ value_high }} points - n &times; {{ search_cost }} points </b></math> 
+                </li>
+                or 
+                <li>
+                    <math><b> {{ value_low }} points - n &times; {{ search_cost }} points </b></math>. 
+                </li>
+            </ul>
         {% endif %}
     {% endif %}
 </p>
