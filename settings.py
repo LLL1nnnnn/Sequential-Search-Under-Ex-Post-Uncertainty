@@ -2,13 +2,6 @@ from os import environ
 
 
 SESSION_CONFIGS = [
-    # dict(
-    #     name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
-    # ),
-    # dict(
-    #     name='certainty', app_sequence=['certainty'],
-    #     num_demo_participants=2
-    # ),
     dict(
         name='hl_mpl', 
         display_name='HL MPL', 
@@ -18,14 +11,10 @@ SESSION_CONFIGS = [
         lottery_b_hi = 500,
         lottery_b_lo = 100, 
     ),
-    # dict(
-    #     name='demo', app_sequence=['demographics'],
-    #     num_demo_participants=1,
-    # ),
     dict(
         name='search_experiment_control', 
-        display_name='Search Experiment (Control)', 
-        app_sequence=['search','mpl','demographics'],
+        display_name='Search Experiment (Manual Certainty)', 
+        app_sequence=['search', 'bret_practice', 'bret', 'mpl','demographics'],
         num_demo_participants=1,
         # config_file = "search_pilot.csv",
         value_high = 500,
@@ -40,26 +29,9 @@ SESSION_CONFIGS = [
         automatic = False, 
     ),
     dict(
-        name='search_experiment_certainty_prob', 
-        display_name='Search Experiment (Centainty Prob)', 
-        app_sequence=['search','mpl','demographics'],
-        num_demo_participants=1,
-        # config_file = "search_pilot.csv",
-        value_high = 500,
-        value_low = 100,
-        search_cost = 5,
-        lottery_a = 280, 
-        lottery_b_hi = 500,
-        lottery_b_lo = 100,
-        random = True, 
-        certainty = True, 
-        control = False, 
-        automatic = False,
-    ),
-    dict(
         name='search_experiment_uncertainty', 
-        display_name='Search Experiment (Uncertainty)', 
-        app_sequence=['search','mpl','demographics'],
+        display_name='Search Experiment (Manual Uncertainty)', 
+        app_sequence=['search', 'bret_practice', 'bret', 'mpl','demographics'],
         num_demo_participants=1,
         # config_file = "search_pilot.csv",
         value_high = 500,
@@ -105,18 +77,6 @@ SESSION_CONFIGS = [
         random = True,
         control = True, 
         automatic = True, 
-    ),
-    dict(
-        name = 'bret',
-        display_name = "Bomb Risk Elicitation Task",
-        num_demo_participants = 1,
-        app_sequence = ['bret'],
-    ),
-    dict(
-        name = 'bret_w_prac',
-        display_name = "Bomb Risk Elicitation Task with Practice",
-        num_demo_participants = 1,
-        app_sequence = ['bret_practice', 'bret'],
     ),
     dict(
         name = 'complete_c',
@@ -173,11 +133,6 @@ REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
 
 ROOMS = [
-    dict(
-        name='econ101',
-        display_name='Econ 101 class',
-        participant_label_file='_rooms/econ101.txt',
-    ),
     dict(name='live_demo', 
         display_name='Room for live demo (no participant labels)'
     ),
