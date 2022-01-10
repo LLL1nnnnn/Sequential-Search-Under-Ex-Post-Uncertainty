@@ -67,8 +67,20 @@
                 Only your payoff from the formal round will count towards your final payoff. 
             {% endblocktrans %}
         </p>
-
+        <p class="borderexample">
+            {% blocktrans trimmed %}
+            To understand this task, let us first consider two extreme cases:
+            <br>If you collect 0 box, you will never hit the bomb but you will earn 0 point for sure.
+            <br>you collect all the 100 boxes, you will definitely hit the bomb and your payment will also be 0.
+            <br>So you would like to choose to collect some boxes between 0 and 100. 
+            The more boxes you collect, the higher payment you can receive if you do not hit the bomb, 
+            but with the higher chance you will hit the bomb (which lowers your payment to 0).
+            {% endblocktrans %}
+        </p>
+        <p>
+            Please raise your hand in the Zoom call if you finish reading the instruction and are ready to play the game. 
+        </p>
     </div>
 
-     {% next_button %}
+     <!-- {% next_button %} -->
 {% endblock %}

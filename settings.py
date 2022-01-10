@@ -77,6 +77,12 @@ SESSION_CONFIGS = [
         control = False, 
         automatic = True, 
     ),
+    dict(
+        name = 'bret',
+        display_name='BRET', 
+        app_sequence=['bret_practice', 'bret'],
+        num_demo_participants=1,
+    ),
 ]
 
 # PARTICIPANT_FIELDS = ['match', 'encoding_payoff']

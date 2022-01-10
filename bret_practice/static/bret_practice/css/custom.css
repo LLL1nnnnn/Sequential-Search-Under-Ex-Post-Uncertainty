@@ -44,6 +44,13 @@ body {
          border-radius: 8px/8px;
 }
 
+.borderexample {
+    border: 3px;
+    border-style:solid;
+    border-color:#000000;
+    padding: 15px;
+}
+
 
 
 /* =============================================== */
