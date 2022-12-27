@@ -24,7 +24,7 @@ class Player(BasePlayer):
     gender = models.StringField(
         choices=[['Male', 'Male'], ['Female', 'Female'], ['Other', 'Other']], 
         label='What is your gender?',
-        # widget=widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
     ethnicity = models.StringField(
         choices=[['American Indian or Alaska Native', 'American Indian or Alaska Native'], 
@@ -32,7 +32,7 @@ class Player(BasePlayer):
         ['Native Hawaiian or Other Pacific Islander', 'Native Hawaiian or Other Pacific Islander'], 
         ['White', 'White'], ['Other', 'Other'] , ['Prefer not to say', 'Prefer not to say']], 
         label='What is your ethnic group?',
-        # widget=widgets.RadioSelect,
+        widget=widgets.RadioSelect,
     )
     participantID = models.StringField(label='What is your participant ID (Zoom Username)?')
     venmoID = models.StringField(label='What is your Venmo ID?')
