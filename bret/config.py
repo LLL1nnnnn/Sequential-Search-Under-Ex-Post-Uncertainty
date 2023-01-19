@@ -20,6 +20,8 @@ class Constants(BaseConstants):
     # if you set this to a decimal number, you must set POINTS_DECIMAL_PLACES in settings.py
     box_value = Currency(5)
 
+    endow = Currency(500)
+
     # number of rows and columns
     # i.e. the total number of boxes is determined by <num_rows> times <num_cols>
     num_rows = 10

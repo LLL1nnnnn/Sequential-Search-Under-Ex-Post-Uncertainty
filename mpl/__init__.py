@@ -14,6 +14,7 @@ class Constants(BaseConstants):
     num_rounds = 1
     name_in_url = 'mpl'
     players_per_group = None
+    endow = 500 
 
 
 class Subsession(BaseSubsession):
@@ -93,9 +94,12 @@ class Instructions(Page):
     def vars_for_template(player: Player):
         return {
             'lottery_a': player.session.config['lottery_a'],
+            'lottery_a_loss': player.session.config['lottery_a_loss'],
             'lottery_b_lo': player.session.config['lottery_b_lo'],
             'lottery_b_hi': player.session.config['lottery_b_hi'],
-            'choices': player.participant.vars['mpl_choices']
+            'choices': player.participant.vars['mpl_choices'],
+            'loss_domain': player.session.config['loss_domain'],
+            'endow': Constants.endow, 
         }
 
 
@@ -112,9 +116,12 @@ class Decision(Page):
     def vars_for_template(player: Player):
         return {
             'lottery_a': player.session.config['lottery_a'],
+            'lottery_a_loss': player.session.config['lottery_a_loss'],
             'lottery_b_lo': player.session.config['lottery_b_lo'],
             'lottery_b_hi': player.session.config['lottery_b_hi'],
-            'choices': player.participant.vars['mpl_choices']
+            'choices': player.participant.vars['mpl_choices'],
+            'loss_domain': player.session.config['loss_domain'],
+            'endow': Constants.endow, 
         }
 
     # set player's payoff
@@ -148,11 +155,14 @@ class Results(Page):
 
         return {
             'lottery_a': player.session.config['lottery_a'],
+            'lottery_a_loss': player.session.config['lottery_a_loss'],
             'lottery_b_lo': player.session.config['lottery_b_lo'],
             'lottery_b_hi': player.session.config['lottery_b_hi'],
             'choice_to_pay':  [choice_to_pay],
             'option_to_pay':  player.option_to_pay,
-            'payoff':         player.payoff
+            'payoff':         player.payoff,
+            'loss_domain': player.session.config['loss_domain'],
+            'endow': Constants.endow, 
         }
 
 

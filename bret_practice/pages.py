@@ -24,7 +24,9 @@ class Instructions(Page):
             'num_boxes':            Constants.num_rows * Constants.num_cols,
             'num_nobomb':           Constants.num_rows * Constants.num_cols - 1,
             'box_value':            Constants.box_value,
+            'endow':                Constants.endow, 
             'time_interval':        Constants.time_interval,
+            'loss_domain':            self.player.session.config['loss_domain'], 
         }
 
 
@@ -62,6 +64,7 @@ class Decision(Page):
             'box_width':        Constants.box_width,
             'box_height':       Constants.box_height,
             'time_interval':    Constants.time_interval,
+            'loss_domain':      self.player.session.config['loss_domain'], 
         }
 
         return {
@@ -99,6 +102,7 @@ class Results(Page):
             'round_to_pay':           self.participant.vars['round_to_pay'],
             'payoff':                 self.player.payoff,
             'total_payoff':           total_payoff,
+            'loss_domain':            self.player.session.config['loss_domain'], 
         }
 
 

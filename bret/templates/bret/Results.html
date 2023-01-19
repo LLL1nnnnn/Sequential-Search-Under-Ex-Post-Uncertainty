@@ -29,27 +29,52 @@
     <!-- ----------------------------------------------------------------------------------------------------------- -->
     {% if Constants.num_rounds == 1 %}
         <div class="card card-info">
-            {% blocktrans trimmed %}
-                You chose to collect {{ boxes_collected }} out of {{ boxes_total }} boxes.
-            {% endblocktrans %}
-
-            <br/>
-            {% blocktrans trimmed %}
-                The bomb was hidden behind the box in row {{ bomb_row }}, column {{ bomb_col }}.
-            {% endblocktrans %}
-
-            <br/><br/>
-            {% if bomb %}
+            {% if loss_domain == True %}
                 {% blocktrans trimmed %}
-                    The bomb was among your {{ boxes_collected }} collected boxes.<br/>
-                    Accordingly, all your earnings in this task were destroyed and your payoff amounts to {{ payoff }}.
+                    You chose to collect {{ boxes_collected }} out of {{ boxes_total }} boxes.
                 {% endblocktrans %}
+
+                <br/>
+                {% blocktrans trimmed %}
+                    The bomb was hidden behind the box in row {{ bomb_row }}, column {{ bomb_col }}.
+                {% endblocktrans %}
+
+                <br/><br/>
+                {% if bomb %}
+                    {% blocktrans trimmed %}
+                        The bomb was among your {{ boxes_collected }} collected boxes.<br/>
+                        Accordingly, your endowment in this task were destroyed and your payoff amounts to {{ payoff }}.
+                    {% endblocktrans %}
+                {% else %}
+                    {% blocktrans trimmed %}
+                        Your collected boxes did not contain the bomb.<br/>
+                        Thus, you lose {{ box_value }} for each of the {{ boxes_collected }} boxes
+                        you collected such that your payoff from this task amounts to <b>{{ payoff }}</b>.
+                    {% endblocktrans %}
+                {% endif %}
             {% else %}
                 {% blocktrans trimmed %}
-                    Your collected boxes did not contain the bomb.<br/>
-                    Thus, you receive {{ box_value }} for each of the {{ boxes_collected }} boxes
-                    you collected such that your payoff from this task amounts to <b>{{ payoff }}</b>.
+                    You chose to collect {{ boxes_collected }} out of {{ boxes_total }} boxes.
                 {% endblocktrans %}
+
+                <br/>
+                {% blocktrans trimmed %}
+                    The bomb was hidden behind the box in row {{ bomb_row }}, column {{ bomb_col }}.
+                {% endblocktrans %}
+
+                <br/><br/>
+                {% if bomb %}
+                    {% blocktrans trimmed %}
+                        The bomb was among your {{ boxes_collected }} collected boxes.<br/>
+                        Accordingly, all your earnings in this task were destroyed and your payoff amounts to {{ payoff }}.
+                    {% endblocktrans %}
+                {% else %}
+                    {% blocktrans trimmed %}
+                        Your collected boxes did not contain the bomb.<br/>
+                        Thus, you receive {{ box_value }} for each of the {{ boxes_collected }} boxes
+                        you collected such that your payoff from this task amounts to <b>{{ payoff }}</b>.
+                    {% endblocktrans %}
+                {% endif %}
             {% endif %}
         </div>
 
