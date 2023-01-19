@@ -14,7 +14,7 @@ class Constants(BaseConstants):
     num_rounds = 1
     name_in_url = 'mpl'
     players_per_group = None
-    endow = 500 
+    endow = 600
 
 
 class Subsession(BaseSubsession):

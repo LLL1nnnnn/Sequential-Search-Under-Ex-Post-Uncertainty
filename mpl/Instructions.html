@@ -25,7 +25,7 @@
             Each outcome, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, is equally likely. 
             The figure below shows an example of one decision. 
             If you choose Option A, you will for sure lose {{ lottery_a_loss }} points. 
-            However, Option B offers a 1 in 10 chance of losing {{ lottery_b_lo }} points and a 9 in 10 chance of getting {{ lottery_b_hi }} points.
+            However, Option B offers a 1 in 10 chance of losing {{ lottery_b_lo }} points and a 9 in 10 chance of losing {{ lottery_b_hi }} points.
 
             <!-- Option A always offers <b>{{ lottery_a }}</b> points for sure. Option B offers a chance between 0/10 (0%) and 10/10 (100%) 
             to receive <b>{{ lottery_b_hi }}</b> points, and the rest of chance to receive <b>{{ lottery_b_lo }}</b> points.  -->
@@ -198,7 +198,7 @@
                             </td>
                             <!-- B lotteries -->
                             <td class="lottery-b">
-                                {% trans "10/10 of losing" %}{{ lottery_b_lo }}{% trans " points" %}, {% trans "0/10 of losing" %}{{ lottery_b_hi }}{% trans " points" %}
+                                {% trans "10/10 of losing " %}{{ lottery_b_lo }}{% trans " points" %}, {% trans "0/10 of losing " %}{{ lottery_b_hi }}{% trans " points" %}
                             </td>
                         </tr>
                     </tbody>
@@ -218,10 +218,10 @@
             <li>
                 <b>The Relevant Decision:</b> One of the rows is then selected at random, and the Option (A or B) that you chose in that row will be used to determine 
                 your loss. <font color="red">Note:</font> Please think about each decision carefully, since each row is equally likely to end up being the one 
-                that is used to determine payoffs.
+                that is used to determine losses.
             </li>
             <li>
-                <b>Determining the Payoff:</b> After one of the decisions has been randomly selected, the computer will generate another random number that corresponds 
+                <b>Determining the Loss:</b> After one of the decisions has been randomly selected, the computer will generate another random number that corresponds 
                 to the throw of a ten sided die depending on the Option previously selected for the decision being used. The number is equally likely to be 1, 2, 3, ... 10. 
                 This random number determines your loss if you chose Option B for that decision. 
             </li>

@@ -55,7 +55,7 @@
                                 </td>
                                 <!-- A lotteries -->
                                 <td class="lottery-a">
-                                    {% trans "losing " %}{{ lottery_a }}{% trans " points" %}
+                                    {% trans "losing " %}{{ lottery_a_loss }}{% trans " points" %}
                                 </td>
                                 <!-- radio select form fields -->
                                 <td class="formfield">
@@ -71,7 +71,7 @@
                                 </td>
                                 <!-- B lotteries -->
                                 <td class="lottery-b">
-                                    {{ p }} {% trans " of losing " %}{{ lottery_b_hi }}{% trans " points" %}, {{ q }} {% trans " of losing " %}{{ lottery_b_lo }}{% trans " points" %}
+                                    {{ p }} {% trans " of losing " %}{{ lottery_b_lo }}{% trans " points" %}, {{ q }} {% trans " of losing " %}{{ lottery_b_hi }}{% trans " points" %}
                                 </td>
                             </tr>
                         {% endfor %}

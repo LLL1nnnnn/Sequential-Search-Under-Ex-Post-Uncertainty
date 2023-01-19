@@ -42,6 +42,9 @@ class Player(BasePlayer):
     # number of collected boxes
     boxes_collected = models.IntegerField()
 
+    # number of uncollected boxes
+    boxes_uncollected = models.IntegerField()
+
     # --- set round results and player's payoff
     # ------------------------------------------------------------------------------------------------------------------
     pay_this_round = models.BooleanField()

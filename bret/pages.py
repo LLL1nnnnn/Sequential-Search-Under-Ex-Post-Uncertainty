@@ -96,6 +96,7 @@ class Results(Page):
             'box_value':              Constants.box_value,
             'boxes_total':            Constants.num_rows * Constants.num_cols,
             'boxes_collected':        self.player.boxes_collected,
+            'boxes_uncollected':      Constants.num_rows * Constants.num_cols - self.player.boxes_collected,
             'bomb':                   self.player.bomb,
             'bomb_row':               self.player.bomb_row,
             'bomb_col':               self.player.bomb_col,
