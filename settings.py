@@ -53,6 +53,8 @@ SESSION_CONFIGS = [
         display_name='BRET', 
         app_sequence=['bret_practice', 'bret'],
         num_demo_participants=1,
+        loss_domain = True, 
+        endowment = 600,  
     ),
 ]
 
